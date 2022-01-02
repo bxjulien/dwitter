@@ -1,10 +1,8 @@
-import Address from './Address/Address'
-
 const Dweet = ({ dweet }) => {
 
   return (
     <>
-      <Address address={dweet.user} />
+      <span>{dweet.user}</span>
       <p>{dweet.text}</p>
     </>
   )
