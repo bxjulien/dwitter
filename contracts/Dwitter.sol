@@ -9,17 +9,20 @@ contract Dwitter {
         uint256 timestamp;
     }
 
-    uint256 totalDweets;
-    Dweet[] dweets;
+    uint256 totalDweets = 0;
+    mapping (uint256 => Dweet) private dweets;
 
     event newDweet(Dweet dweet);
 
     function getAllDweets() public view returns (Dweet[] memory) {
-        return dweets;
+        Dweet[] memory allDweets = new Dweet[](totalDweets);
+        for (uint i = 0; i < totalDweets; i++) {
+            allDweets[i] = dweets[i];
+        }
+        return allDweets;
     }
 
     function postDweet(string memory _text) public returns (Dweet memory) {
-        totalDweets++;
         Dweet memory dweet = Dweet(
             totalDweets,
             msg.sender,
@@ -27,11 +30,17 @@ contract Dwitter {
             block.timestamp
         );
 
-        dweets.push(dweet);
+        dweets[dweet.id] = dweet;
+        totalDweets++;
 
         emit newDweet(dweet);
 
         return dweet;
+    }
+
+    function deleteDweet(uint256 id) public {
+        delete dweets[id];
+        totalDweets--;
     }
 
     function getTotalDweets() public view returns (uint256) {

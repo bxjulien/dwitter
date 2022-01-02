@@ -1,4 +1,4 @@
-export default async function getContract(address, abi) {
+export default async function getContract() {
   const { ethereum } = window;
 
   if (ethereum) {

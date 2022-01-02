@@ -1,15 +1,17 @@
-const main = async () => {
+const hre = require("hardhat");
+
+async function main() {
   const [deployer] = await hre.ethers.getSigners();
   const accountBalance = await deployer.getBalance();
 
   console.log('Deploying contracts with account: ', deployer.address);
   console.log('Account balance: ', accountBalance.toString());
 
-  const Token = await hre.ethers.getContractFactory('Dwitter');
-  const portal = await Token.deploy();
-  await portal.deployed();
+  const Dwitter = await hre.ethers.getContractFactory('Dwitter');
+  const dwitter = await Dwitter.deploy();
+  await dwitter.deployed();
 
-  console.log('Dwitter address: ', portal.address);
+  console.log('Dwitter address: ', dwitter.address);
 };
 
 const runMain = async () => {
