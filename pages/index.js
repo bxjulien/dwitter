@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import Dweets from '../containers/Dweets'
+import Dweets from '../containers/dweets/Dweets'
 import getContract from '../utils/helpers/ethers/getContract';
 import getWallet from '../utils/helpers/ethers/getWallet';
 import abi from '../artifacts/contracts/Dwitter.sol/Dwitter.json'
 
-const dwitterAddress = "0x5633283D998c85584Fdf59dC6eBbce0d483bC871";
+const dwitterAddress = "0xf5B86c5800026181b9FC2aF8cF865C28C2c02092";
 
 const Home = () => {
   const [wallet, setWallet] = useState("");

@@ -8,7 +8,7 @@ export default function getContract(address, abi) {
     const signer = provider.getSigner();
     return new ethers.Contract(address, abi, signer);
   } else {
-    throw new Exception("Ethereum object doesn't exist!")
+    alert("oupss, Metamask is not installed")
   }
 
 }

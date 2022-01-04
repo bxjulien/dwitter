@@ -6,6 +6,7 @@ contract Dwitter {
         uint256 id;
         address user;
         string text;
+        address[] likes;
         uint256 timestamp;
     }
 
@@ -23,10 +24,12 @@ contract Dwitter {
     }
 
     function postDweet(string memory _text) public returns (Dweet memory) {
+        address[] memory likes;
         Dweet memory dweet = Dweet(
             totalDweets,
             msg.sender,
             _text,
+            likes,
             block.timestamp
         );
 
@@ -38,12 +41,29 @@ contract Dwitter {
         return dweet;
     }
 
-    function deleteDweet(uint256 id) public {
-        delete dweets[id];
+    function deleteDweet(uint256 _id) public {
+        delete dweets[_id];
         totalDweets--;
+    }
+
+    function getDweet(uint256 _id) public view returns (Dweet memory) {
+        return dweets[_id];
     }
 
     function getTotalDweets() public view returns (uint256) {
         return totalDweets;
     }
+
+    function likeDweet(uint256 _id) public {
+        Dweet storage dweet = dweets[_id];
+        uint256 hasAlreadyLiked;
+
+        for (uint i = 0; i < dweet.likes.length; i++) {
+            if (dweet.likes[i] == msg.sender) hasAlreadyLiked = i;
+        }
+
+        if (hasAlreadyLiked >= 0) delete dweet.likes[hasAlreadyLiked]; 
+        else dweet.likes.push(msg.sender);
+    }
+
 }

@@ -1,0 +1,13 @@
+.dweet {
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem;
+
+  width: 60%;
+}
