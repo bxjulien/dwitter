@@ -1,0 +1,25 @@
+.dweetForm {
+  height: 100px;
+  width: 100%;
+  padding: .8rem;
+  display: flex;
+  justify-content: space-evenly;
+
+  .profile {
+    height: 40px;
+    width: 40px;
+    background: wheat;
+    border-radius: 50px;
+    align-self: center;
+    scroll-margin-left: -.5rem;
+  }
+
+  Input {
+    width: 70%;
+  }
+    
+  Button {
+    justify-self: flex-end;
+    align-self: flex-end;
+  }
+}

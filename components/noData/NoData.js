@@ -1,10 +1,7 @@
-const NoData = ({ text }) => {
+import styles from './NoData.module.css'
 
-  return (
-    <>
-      <span>{text}</span>
-    </>
-  )
+export default function NoData(props) {
+
+  return <div className={styles.noData} {...props}>{props.children}</div>
 }
 
-export default NoData;

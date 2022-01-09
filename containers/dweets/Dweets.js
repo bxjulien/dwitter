@@ -3,17 +3,15 @@ import Dweet from '../../components/dweet/Dweet';
 import NoData from '../../components/noData/NoData';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
-import styles from './Dweets.module.css'
+import styles from './Dweets.module.scss'
+import DweetForm from '../dweetForm/DweetForm';
 
-const Dweets = ({ wallet, contract }) => {
+export default function Dweets({ contract, account }) {
   const [dweets, setDweets] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const noDataText = "Hmm, it seems our super decentralized database is empty... :("
 
-  useEffect(() => {
-    wallet && getDweets();
-  }, [wallet])
+  useEffect(() => getDweets(), [])
 
   async function getDweets() {
     try {
@@ -37,13 +35,6 @@ const Dweets = ({ wallet, contract }) => {
     }
     catch (e) { console.error(e); }
   }
-
-/*   async function getDweet(id) {
-    const dweet = await contract.getDweet(id);
-
-
-
-  } */
 
   async function postDweet() {
     try {
@@ -75,20 +66,16 @@ const Dweets = ({ wallet, contract }) => {
     return (
       dweets.length > 0 ? dweets.map((dweet, key) => {
         return <Dweet key={key} dweet={dweet} likeDweet={likeDweet} deleteDweet={deleteDweet} />
-      }) : <NoData text={noDataText} />
+      }) : <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
     )
   }
 
   return (
-    <section className="flex-column">
-      <div className="flex-column">
-        <Input value={input} onInput={setInput} />
-        <Button text="Dweet" fn={() => postDweet()} />
-      </div>
-      <h2>Dweet list</h2>
+    <section className={styles.dweets}>
+      <DweetForm value={input} onInput={setInput} postDweet={() => postDweet()} />
+
       {isLoading ? 'loading' : render()}
+
     </section>
   )
 }
-
-export default Dweets;

@@ -3,7 +3,6 @@ import Button from '../button/Button'
 import styles from './Dweet.module.css'
 
 const Dweet = ({ dweet, likeDweet, deleteDweet }) => {
-
   return (
     <div className={styles.dweet}>
       <div className='flex-column'>
@@ -12,8 +11,8 @@ const Dweet = ({ dweet, likeDweet, deleteDweet }) => {
         <span className={styles.likes + ' flex-row'}>{dweet.likes.length} ❤️</span>
       </div>
       <div className='flex-row'>
-        <Button text="Like" fn={() => likeDweet(dweet.id)} />
-        <Button text="Delete" fn={() => deleteDweet(dweet.id)} />
+        <Button onClick={() => likeDweet(dweet.id)}>Like</Button>
+        <Button onClick={() => deleteDweet(dweet.id)}>Delete</Button>
       </div>
     </div>
   )

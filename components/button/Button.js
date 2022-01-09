@@ -1,12 +1,9 @@
 import styles from "./Button.module.css";
 
-const Button = ({ text, fn }) => {
-
+export default function Button(props) {
   return (
-    <button className={styles.button} onClick={fn}>
-      {text}
+    <button {...props} className={styles.button}>
+      {props.children}
     </button>
   )
 }
-
-export default Button;

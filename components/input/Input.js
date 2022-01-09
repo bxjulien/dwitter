@@ -1,8 +1,11 @@
-const Input = ({ value, onInput }) => {
+import styles from './Input.module.scss';
 
+export default function Input(props) {
   return (
-    <input value={value} onInput={e => onInput(e.target.value)} />
+    <input
+      {...props}
+      className={styles.input}
+      onInput={(e) => props.onInput(e.target.value)}
+    />
   )
 }
-
-export default Input;
