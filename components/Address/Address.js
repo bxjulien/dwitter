@@ -1,10 +1,11 @@
 import styles from "./Address.module.css";
+import shortenAddress from '../../utils/helpers/common/shortenAddress'
 
 const Adrress = ({ address }) => {
 
   return (
     <span className={styles.address}>
-      {`${address.slice(0, 5)}...${address.slice(address.length - 4)}`}
+      {shortenAddress(address)}
     </span>
   )
 }
