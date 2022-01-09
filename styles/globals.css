@@ -18,6 +18,12 @@ a {
   box-sizing: border-box;
 }
 
+.flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;

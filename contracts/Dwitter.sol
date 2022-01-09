@@ -11,13 +11,13 @@ contract Dwitter {
     }
 
     uint256 totalDweets = 0;
-    mapping (uint256 => Dweet) private dweets;
+    mapping(uint256 => Dweet) private dweets;
 
     event newDweet(Dweet dweet);
 
     function getAllDweets() public view returns (Dweet[] memory) {
         Dweet[] memory allDweets = new Dweet[](totalDweets);
-        for (uint i = 0; i < totalDweets; i++) {
+        for (uint256 i = 0; i < totalDweets; i++) {
             allDweets[i] = dweets[i];
         }
         return allDweets;
@@ -54,16 +54,15 @@ contract Dwitter {
         return totalDweets;
     }
 
-    function likeDweet(uint256 _id) public {
-        Dweet storage dweet = dweets[_id];
-        uint256 hasAlreadyLiked;
+    function likeDweet(uint256 _dweetId) public {
+        Dweet storage dweet = dweets[_dweetId];
+        bool hasAlreadyLiked = false;
 
-        for (uint i = 0; i < dweet.likes.length; i++) {
-            if (dweet.likes[i] == msg.sender) hasAlreadyLiked = i;
+        for (uint256 i = 0; i < dweet.likes.length; i++) {
+            if (dweet.likes[i] == msg.sender) delete dweet.likes[i];
+            hasAlreadyLiked = true;
         }
 
-        if (hasAlreadyLiked >= 0) delete dweet.likes[hasAlreadyLiked]; 
-        else dweet.likes.push(msg.sender);
+        if (!hasAlreadyLiked) dweet.likes.push(msg.sender);
     }
-
 }

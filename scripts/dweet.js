@@ -17,6 +17,7 @@ const main = async () => {
 
   let allDweets = await dwitterContract.getAllDweets();
   console.log(allDweets);
+
 };
 
 const runMain = async () => {

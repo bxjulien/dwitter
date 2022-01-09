@@ -1,9 +1,12 @@
 .button {
+  text-align: center;
   border: none;
   color: black;
   border: none;
-  padding: .5rem 1rem;
   text-decoration: none;
   cursor: pointer;
   border-radius: 5px;
+  width: 4rem;
+  height: 2rem;
+  margin: .2rem;
 }
