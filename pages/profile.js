@@ -1,0 +1,13 @@
+import Dweets from '../containers/dweets/Dweets'
+import getContract from '../utils/helpers/ethers/getContract';
+import { useMetamask } from '../utils/helpers/ethers/metamask/metamaskProvider';
+
+export default function Home() {
+  const { ethereum, account, connect } = useMetamask();
+
+  const dwitterContract = getContract(ethereum);
+
+  if (!ethereum) return <p>Please install Metamask to connect to this site</p>
+  else if (!account) return <p>Connect with Metamask</p>
+  else return <p>profile</p>
+}
