@@ -3,11 +3,13 @@ import Dweet from '../../components/dweet/Dweet';
 import NoData from '../../components/noData/NoData';
 import styles from './Dweets.module.scss'
 import DweetForm from '../dweetForm/DweetForm';
+import ReplyForm from '../replyForm/ReplyForm';
 
 export default function Dweets({ contract, account }) {
   const [dweets, setDweets] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [replyDweet, setReplyDweet] = useState(null);
 
   useEffect(() => getDweets(), []);
   useEffect(() => handleContractEvents(), [!!contract]);
@@ -58,6 +60,10 @@ export default function Dweets({ contract, account }) {
     } catch (e) { console.error(e); }
   }
 
+  async function handleReply(dweet) {
+    setReplyDweet(dweet);
+  }
+
   function handleContractEvents() {
     contract.on("reload", async () => {
       getDweets();
@@ -65,15 +71,16 @@ export default function Dweets({ contract, account }) {
   }
 
   function render() {
-    return (
-      dweets.length > 0 ? dweets.map((dweet, key) => {
-        return <Dweet key={key} dweet={dweet} likeDweet={likeDweet} deleteDweet={deleteDweet} />
-      }) : <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
-    )
+    if (dweets.length > 0) {
+      return (dweets.map((dweet, key) => {
+        return <Dweet key={key} dweet={dweet} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} />
+      }))
+    } else return <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
   }
 
   return (
     <section className={styles.dweets}>
+
       <DweetForm value={input} onInput={setInput} postDweet={() => postDweet()} />
 
       {isLoading ? 'loading' : render()}

@@ -1,0 +1,41 @@
+.dweet {
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.432);
+  border-left: none;
+  border-right: none;
+  padding: 1rem;
+  padding-bottom: 0;
+
+  .menu {
+    display: flex;
+    justify-content: space-evenly;
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      margin: 0.5rem;
+      opacity: 0.5;
+      transition: all 0.2s;
+    }
+    span:hover {
+      opacity: 1;
+      background: rgba(209, 209, 209, 0.205);
+      border-radius: 99px;
+    }
+  }
+
+  transition: all 0.2s;
+
+  &:hover {
+    cursor: pointer;
+    background: #2e2e2e;
+  }
+}
