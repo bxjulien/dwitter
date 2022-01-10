@@ -2,7 +2,7 @@ const main = async () => {
   const dwittContractFactory = await hre.ethers.getContractFactory('Dwitter');
   const dwitterContract = await dwittContractFactory.deploy();
   await dwitterContract.deployed();
-  console.log('Contract addy:', dwitterContract.address);
+  console.log('Contract address:', dwitterContract.address);
 
   let dweetCount;
   dweetCount = await dwitterContract.getTotalDweets();
@@ -15,8 +15,13 @@ const main = async () => {
   dweetTxn = await dwitterContract.connect(randomPerson).postDweet('Another message!');
   await dweetTxn.wait(); 
 
+  likeTx = await dwitterContract.likeDweet(0);
+  await likeTx.wait();
+
   let allDweets = await dwitterContract.getAllDweets();
-  console.log(allDweets);
+  allDweets.forEach(d => {
+    console.log(+d.id, d.text, d.likes)
+  })
 
 };
 

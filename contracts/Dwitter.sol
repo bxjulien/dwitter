@@ -1,6 +1,8 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
+import "hardhat/console.sol";
+
 contract Dwitter {
     struct Dweet {
         uint256 id;
@@ -8,6 +10,7 @@ contract Dwitter {
         string text;
         address[] likes;
         uint256 timestamp;
+        bool exists;
     }
 
     uint256 totalDweets = 0;
@@ -30,7 +33,8 @@ contract Dwitter {
             msg.sender,
             _text,
             likes,
-            block.timestamp
+            block.timestamp,
+            true
         );
 
         dweets[dweet.id] = dweet;
@@ -56,13 +60,16 @@ contract Dwitter {
 
     function likeDweet(uint256 _dweetId) public {
         Dweet storage dweet = dweets[_dweetId];
-        bool hasAlreadyLiked = false;
+        require(dweet.exists, "Dweet doesn't exists");
 
         for (uint256 i = 0; i < dweet.likes.length; i++) {
-            if (dweet.likes[i] == msg.sender) delete dweet.likes[i];
-            hasAlreadyLiked = true;
+            if (dweet.likes[i] == msg.sender) {
+                dweet.likes[i] = dweet.likes[dweet.likes.length - 1];
+                dweet.likes.pop();
+                return;
+            }
         }
 
-        if (!hasAlreadyLiked) dweet.likes.push(msg.sender);
+        dweet.likes.push(msg.sender);
     }
 }
