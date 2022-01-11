@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 
 import abi from '../../../artifacts/contracts/Dwitter.sol/Dwitter.json'
-const address = "0x2DC358BA82609A864fcb358B33555802e528abF7";
+const address = "0x731A3Ba95d302341f58d2bEbDe0D3c1D30b897dc";
 
 export default function getContract(ethereum) {
   if (ethereum) {

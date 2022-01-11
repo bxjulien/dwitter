@@ -11,10 +11,14 @@ contract Dwitter {
         address[] likes;
         uint256 timestamp;
         bool exists;
+        bool isReply;
     }
 
     uint256 totalDweets = 0;
     mapping(uint256 => Dweet) private dweets;
+
+    uint256 totalReplies = 0;
+    mapping(uint256 => Dweet[]) private replies;
 
     event reload();
     event like(address _address);
@@ -35,7 +39,8 @@ contract Dwitter {
             _text,
             likes,
             block.timestamp,
-            true
+            true,
+            false
         );
 
         dweets[dweet.id] = dweet;
@@ -44,6 +49,38 @@ contract Dwitter {
         emit reload();
 
         return dweet;
+    }
+
+    function postReply(string memory _text, uint256 _dweetId)
+        public
+        returns (Dweet memory)
+    {
+        Dweet storage dweetToReply = dweets[_dweetId];
+        require(dweetToReply.exists, "Dweet to reply doesn't exists");
+
+        address[] memory likes;
+
+        Dweet memory reply = Dweet(
+            totalDweets,
+            msg.sender,
+            _text,
+            likes,
+            block.timestamp,
+            true,
+            true
+        );
+
+        dweets[reply.id] = reply;
+        totalDweets++;
+
+        replies[dweetToReply.id].push(reply);
+        totalReplies++;
+
+        return reply;
+    }
+
+    function getReplies(uint _dweetId) public view returns (Dweet[] memory) {
+        return replies[_dweetId];
     }
 
     function deleteDweet(uint256 _id) public {
