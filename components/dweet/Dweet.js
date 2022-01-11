@@ -9,7 +9,7 @@ export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply }) {
         <p>{dweet.text}</p>
       </div>
       <div className={styles.menu}>
-        <span onClick={() => handleReply(dweet)}>↩️ {dweet.likes.length}</span>
+        <span onClick={() => handleReply(dweet)}>↩️ {dweet.replies.length}</span>
         <span onClick={() => likeDweet(dweet.id)}>❤️ {dweet.likes.length}</span>
         <span onClick={() => deleteDweet(dweet.id)}>🗑️</span>
       </div>

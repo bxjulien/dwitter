@@ -20,19 +20,41 @@ export default function Dweets({ contract, account }) {
       const _dweets = await contract.getAllDweets();
 
       const newDweets = [];
-      _dweets.forEach(d => {
-        newDweets.push({
-          id: +d.id,
-          user: d.user,
-          text: d.text,
-          likes: d.likes,
-          timestamp: new Date(d.timestamp * 1000),
-        })
+
+      let getDweetWithReplies = new Promise((resolve, reject) => {
+        _dweets.forEach(async (d, index, array) => {
+          let newDweet = {
+            id: +d.id,
+            user: d.user,
+            text: d.text,
+            likes: d.likes,
+            timestamp: new Date(d.timestamp * 1000),
+            replies: []
+          }
+
+          let replies = await contract.getReplies(newDweet.id);
+
+          replies.forEach(r => {
+            newDweet.replies.push({
+              id: +r.id,
+              user: r.user,
+              text: r.text,
+              likes: r.likes,
+              timestamp: new Date(r.timestamp * 1000)
+            })
+          })
+
+          newDweets.push(newDweet);
+          if (index === array.length - 1) resolve();
+        });
       });
 
-      setDweets(newDweets.reverse());
-      setIsLoading(false);
-      console.log("Dweets container dweets -> ", newDweets)
+      getDweetWithReplies.then(() => {
+        setDweets(newDweets.reverse());
+        setIsLoading(false);
+        console.log("Dweets container dweets -> ", newDweets)
+      });
+
     }
     catch (e) { console.error(e); }
   }
