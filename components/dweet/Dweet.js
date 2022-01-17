@@ -1,7 +1,7 @@
 import Address from '../address/Address'
 import styles from './Dweet.module.scss'
 
-export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply }) {
+export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply }) {  
   return (
     <div className={styles.dweet}>
       <div className='flex-column'>

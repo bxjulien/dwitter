@@ -4,8 +4,11 @@ import NoData from '../../components/noData/NoData';
 import styles from './Dweets.module.scss'
 import DweetForm from '../dweetForm/DweetForm';
 import ReplyForm from '../replyForm/ReplyForm';
+import { useModal } from '../modal/Modal';
 
 export default function Dweets({ contract, account }) {
+  const { handleModal } = useModal();
+
   const [dweets, setDweets] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -84,6 +87,7 @@ export default function Dweets({ contract, account }) {
 
   async function handleReply(dweet) {
     setReplyDweet(dweet);
+    handleModal(dweet.text)
   }
 
   function handleContractEvents() {
