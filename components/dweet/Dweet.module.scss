@@ -10,6 +10,10 @@
   padding: .6rem;
   padding-bottom: 0;
 
+  &.noBorder {
+    border: none;
+  }
+
   .user {
     align-self: flex-start;
     display: flex;

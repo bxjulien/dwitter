@@ -26,7 +26,9 @@ contract Dwitter {
     function getAllDweets() public view returns (Dweet[] memory) {
         Dweet[] memory allDweets = new Dweet[](totalDweets);
         for (uint256 i = 0; i < totalDweets; i++) {
-            allDweets[i] = dweets[i];
+            if (!dweets[i].isReply) {
+                allDweets[i] = dweets[i];
+            }
         }
         return allDweets;
     }
@@ -61,7 +63,7 @@ contract Dwitter {
         address[] memory likes;
 
         Dweet memory reply = Dweet(
-            totalDweets,
+            totalReplies,
             msg.sender,
             _text,
             likes,
@@ -70,16 +72,15 @@ contract Dwitter {
             true
         );
 
-        dweets[reply.id] = reply;
-        totalDweets++;
-
         replies[dweetToReply.id].push(reply);
         totalReplies++;
+
+        emit reload();
 
         return reply;
     }
 
-    function getReplies(uint _dweetId) public view returns (Dweet[] memory) {
+    function getReplies(uint256 _dweetId) public view returns (Dweet[] memory) {
         return replies[_dweetId];
     }
 

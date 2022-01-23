@@ -2,6 +2,7 @@
   position: fixed;
   width: 100%;
   height: 100%;
+  background: #242424c2;
 
   z-index: 1;
 
@@ -20,7 +21,7 @@
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.125);
 
-    .dweet {
+    .dweetReply {
       display: flex;
       flex-direction: column;
     }
