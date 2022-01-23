@@ -7,8 +7,24 @@
   border: 1px solid rgba(255, 255, 255, 0.432);
   border-left: none;
   border-right: none;
-  padding: 1rem;
+  padding: .6rem;
   padding-bottom: 0;
+
+  .user {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    width: 50%;
+    justify-content: space-evenly;
+
+    .profile {
+      height: 40px;
+      width: 40px;
+      background: wheat;
+      border-radius: 50px;
+      align-self: center;
+    }
+  }
 
   .menu {
     display: flex;
@@ -21,7 +37,7 @@
       height: 30px;
       cursor: pointer;
       font-size: 0.7rem;
-      margin: 0.5rem;
+      margin: .3rem;
       opacity: 0.5;
       transition: all 0.2s;
     }

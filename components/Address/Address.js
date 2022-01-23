@@ -1,11 +1,11 @@
 import styles from "./Address.module.css";
 import shortenAddress from '../../utils/helpers/common/shortenAddress'
 
-const Adrress = ({ address }) => {
+const Adrress = (props) => {
 
   return (
     <span className={styles.address}>
-      {shortenAddress(address)}
+      {shortenAddress(props.children)}
     </span>
   )
 }

@@ -12,7 +12,6 @@ export default function Dweets({ contract, account }) {
   const [dweets, setDweets] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [replyDweet, setReplyDweet] = useState(null);
 
   useEffect(() => getDweets(), []);
   useEffect(() => handleContractEvents(), [!!contract]);
@@ -86,8 +85,7 @@ export default function Dweets({ contract, account }) {
   }
 
   async function handleReply(dweet) {
-    setReplyDweet(dweet);
-    handleModal(dweet.text)
+    handleModal(dweet)
   }
 
   function handleContractEvents() {
@@ -99,7 +97,7 @@ export default function Dweets({ contract, account }) {
   function render() {
     if (dweets.length > 0) {
       return (dweets.map((dweet, key) => {
-        return <Dweet key={key} dweet={dweet} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} />
+        return <Dweet key={key} dweet={dweet} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} isMenu />
       }))
     } else return <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
   }
