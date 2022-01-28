@@ -3,7 +3,7 @@ import styles from './Loader.module.scss'
 export default function Loader() {
 
   return (
-    <div>loading</div>
+    <div className={styles.loader}>lokkading</div>
   )
 }
 
