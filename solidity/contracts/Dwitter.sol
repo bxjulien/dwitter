@@ -9,6 +9,7 @@ contract Dwitter {
         address user;
         string text;
         address[] likes;
+        uint256 replies;
         uint256 timestamp;
         bool exists;
         bool isReply;
@@ -40,6 +41,7 @@ contract Dwitter {
             msg.sender,
             _text,
             likes,
+            0,
             block.timestamp,
             true,
             false
@@ -60,6 +62,8 @@ contract Dwitter {
         Dweet storage dweetToReply = dweets[_dweetId];
         require(dweetToReply.exists, "Dweet to reply doesn't exists");
 
+        dweetToReply.replies++;
+
         address[] memory likes;
 
         Dweet memory reply = Dweet(
@@ -67,6 +71,7 @@ contract Dwitter {
             msg.sender,
             _text,
             likes,
+            0,
             block.timestamp,
             true,
             true

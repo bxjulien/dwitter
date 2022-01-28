@@ -5,15 +5,18 @@ import styles from './Dweets.module.scss'
 import DweetForm from '../dweetForm/DweetForm';
 import { useModal } from '../modal/Modal';
 import Loader from '../../common/loader/Loader';
+import { useRouter } from 'next/router';
 
-export default function Dweets({ contract, account }) {
+export default function Dweets({ contract, account, dweetId }) {
   const { handleModal } = useModal();
+  const router = useRouter();
 
   const [dweets, setDweets] = useState([]);
+  const [replies, setReplies] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => getDweets(), []);
+  useEffect(() => dweetId ? getDweet() : getDweets(), []);
   useEffect(() => handleContractEvents(), [!!contract]);
 
   async function getDweets() {
@@ -24,45 +27,53 @@ export default function Dweets({ contract, account }) {
       if (allDweets && allDweets.length) {
         const newDweets = [];
 
-        let getDweetWithReplies = new Promise((resolve, reject) => {
-          allDweets.forEach(async (d, index, array) => {
+        allDweets.forEach(d => {
+          let newDweet = {
+            id: +d.id,
+            user: d.user,
+            text: d.text,
+            likes: d.likes,
+            replies: +d.replies,
+            timestamp: new Date(d.timestamp * 1000)
+          }
 
-            let newDweet = {
-              id: +d.id,
-              user: d.user,
-              text: d.text,
-              likes: d.likes,
-              timestamp: new Date(d.timestamp * 1000),
-              replies: []
-            }
-
-            let replies = await contract.getReplies(newDweet.id);
-
-            replies.forEach(r => {
-              newDweet.replies.push({
-                id: +r.id,
-                user: r.user,
-                text: r.text,
-                likes: r.likes,
-                timestamp: new Date(r.timestamp * 1000)
-              })
-            })
-
-            newDweets.push(newDweet);
-
-            if (index === array.length - 1) resolve();
-          });
+          newDweets.push(newDweet);
         });
 
-        getDweetWithReplies.then(() => {
-          setDweets(newDweets.reverse());
-          setIsLoading(false);
-          console.log("Dweets container dweets -> ", newDweets)
-        });
-      } else {
+        setDweets(newDweets.reverse());
         setIsLoading(false);
-      }
+        console.log("Dweets container dweets -> ", newDweets)
+      } else setIsLoading(false);
+    }
+    catch (e) { console.error(e); }
+  }
 
+  async function getDweet() {
+    try {
+      setIsLoading(true);
+      const dweet = await contract.getDweet(dweetId);
+
+      if (dweet) {
+        const newDweet = {
+          id: +dweet.id,
+          user: dweet.user,
+          text: dweet.text,
+          likes: dweet.likes,
+          replies: +dweet.replies,
+          timestamp: new Date(dweet.timestamp * 1000)
+        }
+
+        setDweets(newDweet);
+        setIsLoading(false);
+        getReplies();
+      } else setIsLoading(false);
+    }
+    catch (e) { console.error(e); }
+  }
+
+  async function getReplies() {
+    try {
+      setReplies(['bonjour', 'bonsoir']);
     }
     catch (e) { console.error(e); }
   }
@@ -97,26 +108,47 @@ export default function Dweets({ contract, account }) {
     handleModal(dweet)
   }
 
+  function goToDweet(id) {
+    router.push(`/dweet/${id}`);
+  }
+
   function handleContractEvents() {
     contract.on("reload", async () => {
-      getDweets();
+      dweetId ? getDweet() : getDweets();
     });
   }
 
-  function render() {
-    if (dweets && dweets.length > 0) {
-      return (dweets.map((dweet, key) => {
-        return <Dweet key={key} dweet={dweet} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} isMenu isBorder />
-      }))
+  function renderDweets() {
+    if (dweets) {
+      if (dweetId) return <Dweet dweet={dweets} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu />
+      else {
+        return dweets.map((dweet, key) => {
+          return <Dweet key={key} dweet={dweet} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
+        });
+      }
     } else return <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
+  }
+
+  function renderReplies() {
+    if (renderReplies) {
+      return replies.map((reply, key) => {
+        return reply + ' ';
+      })
+    }
   }
 
   return (
     <section className={styles.dweets}>
 
-      <DweetForm value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" postText="Dweet" />
+      {!dweetId &&
+        <DweetForm value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" postText="Dweet" />
+      }
 
-      {isLoading ? <Loader /> : render()}
+      {isLoading ? <Loader /> : renderDweets()}
+
+      {dweetId && !isLoading &&
+        renderReplies()
+      }
 
     </section>
   )

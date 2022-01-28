@@ -1,7 +1,7 @@
 import Address from '../Address/Address'
 import styles from './Dweet.module.scss'
 
-export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply, isMenu, isBorder }) {
+export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply, routing, isMenu, isBorder }) {
   return (
     <div className={styles.dweet + (isBorder ? '' : ' ' + styles.noBorder)}>
       <div className='flex-column'>
@@ -10,11 +10,11 @@ export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply, isMe
           Username
           <Address>{dweet.user}</Address>
         </div>
-        <p>{dweet.text}</p>
+        <p onClick={() => routing(dweet.id)}>{dweet.text}</p>
       </div>
       {isMenu &&
         <div className={styles.menu} >
-          <span onClick={() => handleReply(dweet)}>↩️ {dweet.replies.length}</span>
+          <span onClick={() => handleReply(dweet)}>↩️ {dweet.replies}</span>
           <span onClick={() => likeDweet(dweet.id)}>❤️ {dweet.likes.length}</span>
           <span onClick={() => deleteDweet(dweet.id)}>🗑️</span>
         </div>
