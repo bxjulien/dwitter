@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styles from './Reply.module.scss'
-import Dweet from '../../components/dweet/Dweet'
+import Dweet from '../../common/dweet/Dweet'
 import DweetForm from '../dweetForm/DweetForm';
-import getContract from '../../utils/helpers/ethers/getContract';
-import { useMetamask } from '../../utils/helpers/ethers/metamask/metamaskProvider';
+import getContract from '../../../utils/helpers/ethers/getContract';
+import { useMetamask } from '../../containers/metamask/metamaskProvider';
 
 export default function Reply({ dweet, closeModal }) {
   const { ethereum } = useMetamask();

@@ -1,7 +1,7 @@
-import Layout from '../containers/layout/Layout'
+import Layout from '../components/containers/layout/Layout'
 import '../styles/globals.css'
-import MetamaskProvider from '../utils/helpers/ethers/metamask/metamaskProvider'
-import ModalProvider from '../containers/modal/Modal'
+import MetamaskProvider from '../components/containers/metamask/metamaskProvider'
+import ModalProvider from '../components/containers/modal/Modal'
 
 function MyApp({ Component, pageProps }) {
   return (

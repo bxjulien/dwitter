@@ -1,5 +1,5 @@
 import styles from "./Address.module.css";
-import shortenAddress from '../../utils/helpers/common/shortenAddress'
+import shortenAddress from '../../../utils/helpers/common/shortenAddress'
 
 const Adrress = (props) => {
 

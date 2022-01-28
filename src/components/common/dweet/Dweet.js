@@ -1,4 +1,4 @@
-import Address from '../address/Address'
+import Address from '../Address/Address'
 import styles from './Dweet.module.scss'
 
 export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply, isMenu, isBorder }) {

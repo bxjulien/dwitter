@@ -1,6 +1,6 @@
-import Dweets from '../containers/dweets/Dweets'
+import Dweets from '../components/containers/dweets/Dweets'
 import getContract from '../utils/helpers/ethers/getContract';
-import { useMetamask } from '../utils/helpers/ethers/metamask/metamaskProvider';
+import { useMetamask } from '../components/containers/metamask/metamaskProvider';
 
 export default function Home() {
   const { ethereum, account, connect } = useMetamask();

@@ -1,5 +1,5 @@
-import Input from '../../components/input/Input';
-import Button from '../../components/button/Button';
+import Input from '../../common/input/Input';
+import Button from '../../common/button/Button';
 import styles from './DweetForm.module.scss'
 
 export default function dweetForm(props) {

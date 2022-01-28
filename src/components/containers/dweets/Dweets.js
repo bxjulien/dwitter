@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import Dweet from '../../components/dweet/Dweet';
-import NoData from '../../components/noData/NoData';
+import Dweet from '../../common/dweet/Dweet';
+import NoData from '../../common/noData/NoData';
 import styles from './Dweets.module.scss'
 import DweetForm from '../dweetForm/DweetForm';
 import { useModal } from '../modal/Modal';
-import Loader from '../../components/loader/Loader';
+import Loader from '../../common/loader/Loader';
 
 export default function Dweets({ contract, account }) {
   const { handleModal } = useModal();
