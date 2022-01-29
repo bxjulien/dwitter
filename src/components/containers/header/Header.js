@@ -6,8 +6,14 @@ export default function Header() {
 
   return (
     <div className={styles.header}>
-      <p onClick={() => router.push('/')}>Home</p>
-      <p onClick={() => router.push('/profile')}>Profile</p>
+      <ul>
+        <li onClick={() => router.push('/')}>
+          <span>Home</span>
+        </li>
+        <li onClick={() => router.push('/profile')}>
+          <span>Profile</span>
+        </li>
+      </ul>
     </div>
   )
 }

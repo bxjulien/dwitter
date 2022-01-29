@@ -3,23 +3,35 @@
   justify-content: center;
 
   header {
-    width: 10%;
+    flex: 1;
   }
 
   main {
-    flex-grow: 1;
+    flex: 2;
     max-width: 600px;
   }
 
   footer {
-    width: 20%;
+    flex: 1;
   }
 }
 
 /* RESPONSIVE */
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 860px) {
   .layout {
+    header {
+      flex: 0.5;
+    }
+
     footer {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .layout {
+    header {
       display: none;
     }
   }
