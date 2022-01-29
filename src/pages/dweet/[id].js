@@ -7,11 +7,11 @@ export default function Dweet() {
   const { ethereum, account, connect } = useMetamask();
   const router = useRouter();
 
-  const { pid } = router.query
+  const { id } = router.query
 
   const dwitterContract = getContract(ethereum);
 
   if (!ethereum) return <p>Please install Metamask to connect to this site</p>
   else if (!account) return <p>Connect with Metamask</p>
-  else return <Dweets contract={dwitterContract} account={account} dweetId={pid} />
+  else return <Dweets contract={dwitterContract} account={account} dweetId={id} />
 }

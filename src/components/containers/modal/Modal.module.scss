@@ -11,9 +11,11 @@
   align-items: center;
 
   .content {
+    margin-top: -10rem;
     background-color: #19191977;
     min-height: 30%;
-    min-width: 50%;
+    min-width: 600px;
+    max-width: 600px;
     border-radius: 5px;
 
     backdrop-filter: blur(8px) saturate(180%);
