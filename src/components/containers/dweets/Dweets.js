@@ -15,6 +15,7 @@ export default function Dweets({ contract, account, dweetId }) {
   const [replies, setReplies] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingReplies, setIsLoadingReplies] = useState(true);
 
   useEffect(() => dweetId ? getDweet() : getDweets(), []);
   useEffect(() => handleContractEvents(), [!!contract]);
@@ -73,7 +74,29 @@ export default function Dweets({ contract, account, dweetId }) {
 
   async function getReplies() {
     try {
-      setReplies(['bonjour', 'bonsoir']);
+      setIsLoadingReplies(true);
+      const replies = await contract.getReplies(dweetId);
+
+      if (replies && replies.length) {
+        const newReplies = [];
+
+        replies.forEach(d => {
+          let newDweet = {
+            id: +d.id,
+            user: d.user,
+            text: d.text,
+            likes: d.likes,
+            replies: +d.replies,
+            timestamp: new Date(d.timestamp * 1000)
+          }
+
+          newReplies.push(newDweet);
+        });
+
+        setReplies(newReplies.reverse());
+        setIsLoadingReplies(false);
+        console.log("Replies -> ", newReplies)
+      } else setIsLoadingReplies(false);
     }
     catch (e) { console.error(e); }
   }
@@ -130,9 +153,9 @@ export default function Dweets({ contract, account, dweetId }) {
   }
 
   function renderReplies() {
-    if (renderReplies) {
+    if (replies) {
       return replies.map((reply, key) => {
-        return reply + ' ';
+        return <Dweet key={key} dweet={reply} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
       })
     }
   }
@@ -146,7 +169,7 @@ export default function Dweets({ contract, account, dweetId }) {
 
       {isLoading ? <Loader /> : renderDweets()}
 
-      {dweetId && !isLoading &&
+      {dweetId && !isLoadingReplies &&
         renderReplies()
       }
 
