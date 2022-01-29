@@ -4,7 +4,7 @@ import styles from './Dweet.module.scss'
 export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply, routing, isMenu, isBorder }) {
   return (
     <div className={styles.dweet + (isBorder ? '' : ' ' + styles.noBorder)}>
-      <div className='flex-column'>
+      <div className={styles.userContainer}>
         <div className={styles.user}>
           <div className={styles.profile}></div>
           Username

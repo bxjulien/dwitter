@@ -7,26 +7,33 @@
   border: 1px solid rgba(255, 255, 255, 0.432);
   border-left: none;
   border-right: none;
-  padding: .6rem;
+  padding: 0.6rem;
   padding-bottom: 0;
 
   &.noBorder {
     border: none;
   }
 
-  .user {
-    align-self: flex-start;
+  .userContainer {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 50%;
-    justify-content: space-evenly;
 
-    .profile {
-      height: 40px;
-      width: 40px;
-      background: $main;
-      border-radius: 50px;
-      align-self: center;
+    .user {
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      width: 50%;
+      justify-content: space-evenly;
+
+      .profile {
+        height: 40px;
+        width: 40px;
+        background: $main;
+        border-radius: 50px;
+        align-self: center;
+      }
     }
   }
 
@@ -41,7 +48,7 @@
       height: 30px;
       cursor: pointer;
       font-size: 0.7rem;
-      margin: .3rem;
+      margin: 0.3rem;
       opacity: 0.5;
       transition: all 0.2s;
     }
