@@ -9,7 +9,7 @@ export default function Dweet() {
 
   const { id } = router.query
 
-  const dwitterContract = getContract(ethereum);
+  const dwitterContract = getContract(ethereum, 'Dwitter');
 
   if (!ethereum) return <p>Please install Metamask to connect to this site</p>
   else if (!account) return <p>Connect with Metamask</p>

@@ -164,7 +164,7 @@ export default function Dweets({ contract, account, dweetId }) {
     <section className={styles.dweets}>
 
       {!dweetId &&
-        <DweetForm value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" postText="Dweet" />
+        <DweetForm value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" />
       }
 
       {isLoading ? <Loader /> : renderDweets()}

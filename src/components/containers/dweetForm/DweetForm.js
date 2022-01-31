@@ -6,8 +6,10 @@ export default function dweetForm(props) {
   return (
     <div className={styles.dweetForm}>
       <div className={styles.profile}></div>
-      <Input value={props.value} onInput={props.onInput} placeholder={props.placeholder} />
-      <Button onClick={() => props.postDweet()} disabled={!props.value}>{props.postText}</Button>
+      <div className={styles.input}>
+        <Input value={props.value} name="dweet" limit="200" onInput={(name, value) => props.onInput(value)} placeholder={props.placeholder} />
+      </div>
+      <Button onClick={() => props.postDweet()} disabled={!props.value}>Dweet</Button>
     </div>
   )
 }

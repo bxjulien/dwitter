@@ -11,7 +11,12 @@ async function main() {
   const dwitter = await Dwitter.deploy();
   await dwitter.deployed();
 
-  console.log('Dwitter address: ', dwitter.address);
+  const Dwittos = await hre.ethers.getContractFactory('Dwittos');
+  const dwittos = await Dwittos.deploy();
+  await dwittos.deployed();
+
+  console.log('\n Dwitter address -> ', dwitter.address);
+  console.log('\n Dwittos address -> ', dwittos.address);
 };
 
 const runMain = async () => {

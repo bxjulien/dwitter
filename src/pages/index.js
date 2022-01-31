@@ -5,7 +5,7 @@ import { useMetamask } from '../components/containers/metamask/metamaskProvider'
 export default function Home() {
   const { ethereum, account, connect } = useMetamask();
 
-  const dwitterContract = getContract(ethereum);
+  const dwitterContract = getContract(ethereum, 'Dwitter');
 
   if (!ethereum) return <p>Please install Metamask to connect to this site</p>
   else if (!account) return <p>Connect with Metamask</p>

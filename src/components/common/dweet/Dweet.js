@@ -10,7 +10,7 @@ export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply, rout
           Username
           <Address>{dweet.user}</Address>
         </div>
-        <p onClick={() => routing(dweet.id)}>{dweet.text}</p>
+        <p onClick={() => routing(dweet.id)} className={styles.text}>{dweet.text}</p>
       </div>
       {isMenu &&
         <div className={styles.menu} >

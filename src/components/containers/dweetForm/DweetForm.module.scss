@@ -1,7 +1,7 @@
 .dweetForm {
   height: 100px;
   width: 100%;
-  padding: .6rem;
+  padding: 0.6rem;
   display: flex;
   justify-content: space-evenly;
 
@@ -13,12 +13,13 @@
     align-self: center;
   }
 
-  Input {
-    width: 62%;
+  .input {
+    height: 100%;
+    width: 65%;
+    align-self: flex-end;
   }
-    
+
   Button {
-    justify-self: flex-end;
     align-self: flex-end;
   }
 }
