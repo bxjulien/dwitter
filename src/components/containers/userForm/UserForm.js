@@ -4,7 +4,7 @@ import Input from '../../common/input/Input';
 import Button from '../../common/button/Button';
 import styles from './UserForm.module.scss';
 
-export default function UserForm() {
+export default function UserForm({ contract, account, setIsLoading }) {
   const [canSave, setCanSave] = useState(false);
   const [state, setState] = useState({
     username: '',
@@ -30,6 +30,18 @@ export default function UserForm() {
     else return false;
   }
 
+  async function saveUser() {
+    if (canSave) {
+      try {
+        const tx = await contract.postUser(state.username, state.bio, state.picture);
+        setIsLoading(true);
+        await tx.wait();
+        setIsLoading(false);
+      }
+      catch (e) { console.error(e) }
+    }
+  }
+
   return (
     <div className={styles.form}>
 
@@ -46,7 +58,7 @@ export default function UserForm() {
         <div className={styles.container}>
           {pictures.map((p, key) => {
             return (
-              <div key={key} onClick={() => onInput('picture', p)} className={styles.picture + ' ' + (p === state.picture ? styles.active : '')}>
+              <div key={key} onClick={() => onInput('picture', p)} className={`${styles.picture} ${(p === state.picture ? styles.active : '')}`}>
                 <Image className={styles.image} src={`/assets/profile_pictures/${p}.svg`} width={35} height={35} />
               </div>
             )
@@ -55,7 +67,7 @@ export default function UserForm() {
 
       </div>
 
-      <Button disabled={!canSave}>Save</Button>
+      <Button disabled={!canSave} onClick={() => saveUser()}>Save</Button>
 
     </div>
   )

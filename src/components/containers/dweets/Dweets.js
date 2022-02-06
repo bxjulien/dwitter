@@ -4,11 +4,13 @@ import NoData from '../../common/noData/NoData';
 import styles from './Dweets.module.scss'
 import DweetForm from '../dweetForm/DweetForm';
 import { useModal } from '../modal/Modal';
+import { useUser } from '../../../context/userContext';
 import Loader from '../../common/loader/Loader';
 import { useRouter } from 'next/router';
 
 export default function Dweets({ contract, account, dweetId }) {
   const { handleModal } = useModal();
+  const { user } = useUser();
   const router = useRouter();
 
   const [dweets, setDweets] = useState([]);
@@ -17,8 +19,8 @@ export default function Dweets({ contract, account, dweetId }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingReplies, setIsLoadingReplies] = useState(true);
 
-  useEffect(() => dweetId ? getDweet() : getDweets(), []);
-  useEffect(() => handleContractEvents(), [!!contract]);
+  useEffect(() => { if (contract) dweetId ? getDweet() : getDweets() }, [contract]);
+  useEffect(() => { if (contract) handleContractEvents() }, [contract]);
 
   async function getDweets() {
     try {
@@ -164,7 +166,7 @@ export default function Dweets({ contract, account, dweetId }) {
     <section className={styles.dweets}>
 
       {!dweetId &&
-        <DweetForm value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" />
+        <DweetForm user={user} value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" router={router} />
       }
 
       {isLoading ? <Loader /> : renderDweets()}

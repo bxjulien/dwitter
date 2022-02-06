@@ -3,7 +3,7 @@ import styles from './Reply.module.scss'
 import Dweet from '../../common/dweet/Dweet'
 import DweetForm from '../dweetForm/DweetForm';
 import getContract from '../../../utils/helpers/ethers/getContract';
-import { useMetamask } from '../../containers/metamask/metamaskProvider';
+import { useMetamask } from '../../../context/metamaskContext';
 
 export default function Reply({ dweet, closeModal }) {
   const { ethereum } = useMetamask();

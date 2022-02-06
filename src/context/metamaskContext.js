@@ -4,7 +4,8 @@ const MetamaskContext = createContext();
 
 export default function MetamaskProvider({ children }) {
   const [ethereum, setEthereum] = useState(null);
-  const [account, setAccount] = useState(null)
+  const [account, setAccount] = useState(null);
+  const [isMetamaskContextLoaded, setIsMetamaskContextLoaded] = useState(false);
 
   async function setEthereumFromWindow() {
     if (window.ethereum) {
@@ -22,8 +23,9 @@ export default function MetamaskProvider({ children }) {
 
   async function getAccount() {
     if (ethereum) {
-      const accounts = await ethereum.request({ method: 'eth_accounts' });
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       handleAccounts(accounts);
+      setIsMetamaskContextLoaded(true)
     }
   }
   useEffect(() => getAccount());
@@ -33,11 +35,11 @@ export default function MetamaskProvider({ children }) {
       const account = accounts[0];
       setAccount(account);
     } else {
-      alert("No authorized account :(")
+      console.error("No authorized account :(");
     }
   };
 
-  const value = { ethereum, account, getAccount }
+  const value = { ethereum, account, getAccount, isMetamaskContextLoaded }
 
   return (
     <MetamaskContext.Provider value={value}>

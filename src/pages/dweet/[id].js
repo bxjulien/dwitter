@@ -1,5 +1,5 @@
 import getContract from '../../utils/helpers/ethers/getContract';
-import { useMetamask } from '../../components/containers/metamask/metamaskProvider';
+import { useMetamask } from '../../context/metamaskContext';
 import Dweets from '../../components/containers/dweets/Dweets'
 import { useRouter } from 'next/router';
 

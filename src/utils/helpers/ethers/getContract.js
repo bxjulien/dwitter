@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 
-const dwitterAddress = "0xd5b3342fC426a7B0552a853Ab7E9A30440aFe9f8";
+const dwitterAddress = "0xBEF72156C30f7979cb1484C64273Fc173199d7e8";
 import dwitterAbi from '../../../../solidity/artifacts/contracts/Dwitter.sol/Dwitter.json'
 
-const dwittosAddress = "0xDe236EfdDF752d0B5ee910ABe053664E21F54178";
+const dwittosAddress = "0xeA37424532037200C31a2132E732CDeff09bd441";
 import dwittosAbi from '../../../../solidity/artifacts/contracts/Dwittos.sol/Dwittos.json'
 
 export default function getContract(ethereum, name) {
@@ -13,6 +13,7 @@ export default function getContract(ethereum, name) {
     if (name === 'Dwitter') return new ethers.Contract(dwitterAddress, dwitterAbi.abi, signer);
     else if (name === 'Dwittos') return new ethers.Contract(dwittosAddress, dwittosAbi.abi, signer);
   } else {
+    console.error(`Function getContract : Ethereum is ${ethereum}`)
     return undefined
   }
 
