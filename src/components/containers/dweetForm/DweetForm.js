@@ -12,7 +12,9 @@ export default function dweetForm(props) {
           <div className={styles.input}>
             <Input value={props.value} name="dweet" limit="200" onInput={(name, value) => props.onInput(value)} placeholder={props.placeholder} />
           </div>
-          <Button className={styles.dweetButton} onClick={() => props.postDweet()} disabled={!props.value}>Dweet</Button>
+          <div className={styles.dweetButton} >
+            <Button onClick={() => props.postDweet()} disabled={!props.value}>Dweet</Button>
+          </div>
         </>
         :
         <div className={styles.noAccount}>
