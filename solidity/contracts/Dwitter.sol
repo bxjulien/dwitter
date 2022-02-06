@@ -1,6 +1,9 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
+import "./Dwittos.sol" as DwittosContract;
+import "./Models.sol";
+
 contract Dwitter {
     struct Dweet {
         uint256 id;
@@ -11,6 +14,8 @@ contract Dwitter {
         uint256 timestamp;
         bool exists;
         bool isReply;
+        string username;
+        string picture;
     }
 
     uint256 totalDweets = 0;
@@ -29,10 +34,18 @@ contract Dwitter {
                 allDweets[i] = dweets[i];
             }
         }
+        for (uint256 i = 0; i < allDweets.length; i++) {
+            Models.DweetInfos memory dweetInfos = DwittosContract.getDweetInfos(msg.sender);
+            allDweets[i].username = dweetInfos.username;
+            allDweets[i].picture = dweetInfos.picture;
+        }
         return allDweets;
     }
 
     function postDweet(string memory _text) public returns (Dweet memory) {
+        Models.User memory user = DwittosContract.getUser(msg.sender);
+        require(user.exists, "User does not exists");
+
         address[] memory likes;
         Dweet memory dweet = Dweet(
             totalDweets,
@@ -42,7 +55,9 @@ contract Dwitter {
             0,
             block.timestamp,
             true,
-            false
+            false,
+            user.username,
+            user.picture
         );
 
         dweets[dweet.id] = dweet;
@@ -57,6 +72,9 @@ contract Dwitter {
         public
         returns (Dweet memory)
     {
+        Models.User memory user = DwittosContract.getUser(msg.sender);
+        require(user.exists, "User does not exists");
+
         Dweet storage dweetToReply = dweets[_dweetId];
         require(dweetToReply.exists, "Dweet to reply doesn't exists");
 
@@ -72,7 +90,9 @@ contract Dwitter {
             0,
             block.timestamp,
             true,
-            true
+            true,
+            user.username,
+            user.picture
         );
 
         replies[dweetToReply.id].push(reply);
