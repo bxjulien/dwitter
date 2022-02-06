@@ -24,8 +24,14 @@
       align-self: flex-start;
       display: flex;
       align-items: center;
-      width: 50%;
+      width: 70%;
       justify-content: space-evenly;
+
+      .date {
+        justify-self: flex-end;
+        font-size: x-small;
+        opacity: .8;
+      }
     }
 
     .text {

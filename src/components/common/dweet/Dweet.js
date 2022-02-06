@@ -10,6 +10,7 @@ export default function Dweet({ dweet, likeDweet, deleteDweet, handleReply, rout
         <Image className={styles.image} src={`/assets/profile_pictures/${dweet.picture}.svg`} width={35} height={35} />
           {dweet.username}
           <Address>{dweet.user}</Address>
+          <span className={styles.date}>{dweet.timestamp.toLocaleString('en-GB')}</span>
         </div>
         <p onClick={() => routing(dweet.id)} className={styles.text}>{dweet.text}</p>
       </div>
