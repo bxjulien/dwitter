@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 
-const dwitterAddress = "0xBEF72156C30f7979cb1484C64273Fc173199d7e8";
+const dwitterAddress = "0x223eD313eeD92238C68Ac627cF6c821ae914d844";
 import dwitterAbi from '../../../../solidity/artifacts/contracts/Dwitter.sol/Dwitter.json'
 
-const dwittosAddress = "0xeA37424532037200C31a2132E732CDeff09bd441";
+const dwittosAddress = "0x176D3180DA41e728Fe1d30713Dae2a88Fb66D8C5";
 import dwittosAbi from '../../../../solidity/artifacts/contracts/Dwittos.sol/Dwittos.json'
 
 export default function getContract(ethereum, name) {

@@ -19,7 +19,7 @@ export default function Profile({ account }) {
           user && user.exists ?
             <User user={user} />
             :
-            <UserForm contract={contract} account={account} setIsLoading={setIsLoading} />
+            <UserForm contract={contract} account={account} setIsLoading={setIsLoading} getUser={getUser} />
         )}
 
     </section>

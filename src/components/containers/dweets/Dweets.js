@@ -37,7 +37,9 @@ export default function Dweets({ contract, account, dweetId }) {
             text: d.text,
             likes: d.likes,
             replies: +d.replies,
-            timestamp: new Date(d.timestamp * 1000)
+            timestamp: new Date(d.timestamp * 1000),
+            username: d.username,
+            picture: d.picture
           }
 
           newDweets.push(newDweet);
@@ -63,7 +65,9 @@ export default function Dweets({ contract, account, dweetId }) {
           text: dweet.text,
           likes: dweet.likes,
           replies: +dweet.replies,
-          timestamp: new Date(dweet.timestamp * 1000)
+          timestamp: new Date(dweet.timestamp * 1000),
+          username: dweet.username,
+          picture: dweet.picture
         }
 
         setDweets(newDweet);
@@ -89,7 +93,9 @@ export default function Dweets({ contract, account, dweetId }) {
             text: d.text,
             likes: d.likes,
             replies: +d.replies,
-            timestamp: new Date(d.timestamp * 1000)
+            timestamp: new Date(d.timestamp * 1000),
+            username: d.username,
+            picture: d.picture
           }
 
           newReplies.push(newDweet);

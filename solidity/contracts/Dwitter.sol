@@ -1,53 +1,48 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "./Dwittos.sol" as DwittosContract;
+import "./Dwittos.sol";
 import "./Models.sol";
 
 contract Dwitter {
-    struct Dweet {
-        uint256 id;
-        address user;
-        string text;
-        address[] likes;
-        uint256 replies;
-        uint256 timestamp;
-        bool exists;
-        bool isReply;
-        string username;
-        string picture;
+    Dwittos dwittosContract;
+
+    constructor(address _dwittosAddr) {
+        dwittosContract = Dwittos(_dwittosAddr);
     }
 
     uint256 totalDweets = 0;
-    mapping(uint256 => Dweet) private dweets;
+    mapping(uint256 => Models.Dweet) private dweets;
 
     uint256 totalReplies = 0;
-    mapping(uint256 => Dweet[]) private replies;
+    mapping(uint256 => Models.Dweet[]) private replies;
 
     event reload();
     event like(address _address);
 
-    function getAllDweets() public view returns (Dweet[] memory) {
-        Dweet[] memory allDweets = new Dweet[](totalDweets);
+    function getAllDweets() public view returns (Models.Dweet[] memory) {
+        Models.Dweet[] memory allDweets = new Models.Dweet[](totalDweets);
         for (uint256 i = 0; i < totalDweets; i++) {
             if (!dweets[i].isReply) {
                 allDweets[i] = dweets[i];
             }
         }
         for (uint256 i = 0; i < allDweets.length; i++) {
-            Models.DweetInfos memory dweetInfos = DwittosContract.getDweetInfos(msg.sender);
+            Models.DweetInfos memory dweetInfos = dwittosContract.getDweetInfos(
+                allDweets[i].user
+            );
             allDweets[i].username = dweetInfos.username;
             allDweets[i].picture = dweetInfos.picture;
         }
         return allDweets;
     }
 
-    function postDweet(string memory _text) public returns (Dweet memory) {
-        Models.User memory user = DwittosContract.getUser(msg.sender);
+    function postDweet(string memory _text) public returns (Models.Dweet memory) {
+        Models.User memory user = dwittosContract.getUser(msg.sender);
         require(user.exists, "User does not exists");
 
         address[] memory likes;
-        Dweet memory dweet = Dweet(
+        Models.Dweet memory dweet = Models.Dweet(
             totalDweets,
             msg.sender,
             _text,
@@ -70,19 +65,19 @@ contract Dwitter {
 
     function postReply(string memory _text, uint256 _dweetId)
         public
-        returns (Dweet memory)
+        returns (Models.Dweet memory)
     {
-        Models.User memory user = DwittosContract.getUser(msg.sender);
+        Models.User memory user = dwittosContract.getUser(msg.sender);
         require(user.exists, "User does not exists");
 
-        Dweet storage dweetToReply = dweets[_dweetId];
+        Models.Dweet storage dweetToReply = dweets[_dweetId];
         require(dweetToReply.exists, "Dweet to reply doesn't exists");
 
         dweetToReply.replies++;
 
         address[] memory likes;
 
-        Dweet memory reply = Dweet(
+        Models.Dweet memory reply = Models.Dweet(
             totalReplies,
             msg.sender,
             _text,
@@ -103,7 +98,7 @@ contract Dwitter {
         return reply;
     }
 
-    function getReplies(uint256 _dweetId) public view returns (Dweet[] memory) {
+    function getReplies(uint256 _dweetId) public view returns (Models.Dweet[] memory) {
         return replies[_dweetId];
     }
 
@@ -113,7 +108,7 @@ contract Dwitter {
         emit reload();
     }
 
-    function getDweet(uint256 _id) public view returns (Dweet memory) {
+    function getDweet(uint256 _id) public view returns (Models.Dweet memory) {
         return dweets[_id];
     }
 
@@ -122,7 +117,7 @@ contract Dwitter {
     }
 
     function likeDweet(uint256 _dweetId) public {
-        Dweet storage dweet = dweets[_dweetId];
+        Models.Dweet storage dweet = dweets[_dweetId];
         require(dweet.exists, "Dweet doesn't exists");
 
         for (uint256 i = 0; i < dweet.likes.length; i++) {

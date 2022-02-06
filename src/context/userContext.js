@@ -12,7 +12,7 @@ export default function UserContextProvider({ children }) {
 
   useEffect(async () => {
     if (ethereum) {
-      setContract(getContract(ethereum, 'Dwittos'))
+      setContract(getContract(ethereum, 'Dwittos'));
     }
   }, [isMetamaskContextLoaded]);
 
@@ -39,7 +39,7 @@ export default function UserContextProvider({ children }) {
     catch (e) { console.error(e); }
   }
 
-  const value = { user, getUser }
+  const value = { contract, user, getUser }
 
   return (
     <UserContext.Provider value={value}>

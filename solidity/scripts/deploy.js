@@ -7,16 +7,16 @@ async function main() {
   console.log('Deploying contracts with account: ', deployer.address);
   console.log('Account balance: ', accountBalance.toString());
 
-  const Dwitter = await hre.ethers.getContractFactory('Dwitter');
-  const dwitter = await Dwitter.deploy();
-  await dwitter.deployed();
-
   const Dwittos = await hre.ethers.getContractFactory('Dwittos');
   const dwittos = await Dwittos.deploy();
   await dwittos.deployed();
 
-  console.log('\n Dwitter address -> ', dwitter.address);
+  const Dwitter = await hre.ethers.getContractFactory('Dwitter');
+  const dwitter = await Dwitter.deploy(dwittos.address);
+  await dwitter.deployed();
+
   console.log('\n Dwittos address -> ', dwittos.address);
+  console.log('\n Dwitter address -> ', dwitter.address);
 };
 
 const runMain = async () => {

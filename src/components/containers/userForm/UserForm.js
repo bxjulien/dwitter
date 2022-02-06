@@ -4,7 +4,7 @@ import Input from '../../common/input/Input';
 import Button from '../../common/button/Button';
 import styles from './UserForm.module.scss';
 
-export default function UserForm({ contract, account, setIsLoading }) {
+export default function UserForm({ contract, account, setIsLoading, getUser }) {
   const [canSave, setCanSave] = useState(false);
   const [state, setState] = useState({
     username: '',
@@ -36,6 +36,7 @@ export default function UserForm({ contract, account, setIsLoading }) {
         const tx = await contract.postUser(state.username, state.bio, state.picture);
         setIsLoading(true);
         await tx.wait();
+        getUser();
         setIsLoading(false);
       }
       catch (e) { console.error(e) }
