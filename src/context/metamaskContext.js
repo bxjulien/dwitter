@@ -1,10 +1,12 @@
 import { useState, useEffect, createContext, useContext } from "react";
+import getContract from "../utils/helpers/ethers/getContract";
 
 const MetamaskContext = createContext();
 
 export default function MetamaskProvider({ children }) {
   const [ethereum, setEthereum] = useState(null);
   const [account, setAccount] = useState(null);
+  const [contracts, setContracts] = useState(null);
   const [isMetamaskContextLoaded, setIsMetamaskContextLoaded] = useState(false);
 
   async function setEthereumFromWindow() {
@@ -20,6 +22,13 @@ export default function MetamaskProvider({ children }) {
     }
   }
   useEffect(() => setEthereumFromWindow(), []);
+
+  useEffect(() => {
+    if (ethereum) setContracts({
+      dwitter: getContract(ethereum, "Dwitter"),
+      dwittos: getContract(ethereum, "Dwittos")
+    })
+  }, [ethereum]);
 
   async function getAccount() {
     if (ethereum) {
@@ -39,7 +48,7 @@ export default function MetamaskProvider({ children }) {
     }
   };
 
-  const value = { ethereum, account, getAccount, isMetamaskContextLoaded }
+  const value = { ethereum, account, getAccount, contracts, isMetamaskContextLoaded }
 
   return (
     <MetamaskContext.Provider value={value}>

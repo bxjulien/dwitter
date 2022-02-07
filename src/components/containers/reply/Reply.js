@@ -2,18 +2,16 @@ import { useState } from 'react';
 import styles from './Reply.module.scss'
 import Dweet from '../../common/dweet/Dweet'
 import DweetForm from '../dweetForm/DweetForm';
-import getContract from '../../../utils/helpers/ethers/getContract';
 import { useMetamask } from '../../../context/metamaskContext';
 
-export default function Reply({ dweet, closeModal }) {
-  const { ethereum } = useMetamask();
-  const contract = getContract(ethereum);
-  
+export default function Reply({ dweet, user, closeModal }) {
+  const { contracts } = useMetamask();
+
   const [reply, setReply] = useState('');
 
   async function postReply() {
     try {
-      const tx = await contract.postReply(reply, dweet.id);
+      const tx = await contracts.dwitter.postReply(reply, dweet.id);
       await tx.wait();
       setReply('');
       closeModal();
@@ -23,8 +21,8 @@ export default function Reply({ dweet, closeModal }) {
 
   return (
     <div className={styles.dweetReply}>
-      <Dweet dweet={dweet} isMenu />
-      <DweetForm value={reply} onInput={setReply} postDweet={() => postReply()} placeholder="ratio ?" postText="Reply" />
+      <Dweet dweet={dweet} routing isMenu />
+      <DweetForm value={reply} user={user} onInput={setReply} postDweet={() => postReply()} placeholder="ratio ?" postText="Reply" />
     </div>
   )
 }

@@ -7,8 +7,9 @@ import { useModal } from '../modal/Modal';
 import { useUser } from '../../../context/userContext';
 import Loader from '../../common/loader/Loader';
 import { useRouter } from 'next/router';
+import { ModalTypes } from '../../../utils/enums/ModalTypes';
 
-export default function Dweets({ contract, account, dweetId }) {
+export default function Dweets({ contracts, account, dweetId }) {
   const { handleModal } = useModal();
   const { user } = useUser();
   const router = useRouter();
@@ -19,13 +20,14 @@ export default function Dweets({ contract, account, dweetId }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingReplies, setIsLoadingReplies] = useState(true);
 
-  useEffect(() => { if (contract) dweetId ? getDweet() : getDweets() }, [contract]);
-  useEffect(() => { if (contract) handleContractEvents() }, [contract]);
+  useEffect(() => { if (contracts.dwitter) dweetId ? getDweet() : getDweets() }, [contracts]);
+  useEffect(() => { if (contracts.dwitter) handleContractEvents() }, [contracts]);
 
+  //#region Dwitter Contract Calls
   async function getDweets() {
     try {
       setIsLoading(true);
-      const allDweets = await contract.getAllDweets();
+      const allDweets = await contracts.dwitter.getAllDweets();
 
       if (allDweets && allDweets.length) {
         const newDweets = [];
@@ -56,7 +58,7 @@ export default function Dweets({ contract, account, dweetId }) {
   async function getDweet() {
     try {
       setIsLoading(true);
-      const dweet = await contract.getDweet(dweetId);
+      const dweet = await contracts.dwitter.getDweet(dweetId);
 
       if (dweet) {
         const newDweet = {
@@ -81,7 +83,7 @@ export default function Dweets({ contract, account, dweetId }) {
   async function getReplies() {
     try {
       setIsLoadingReplies(true);
-      const replies = await contract.getReplies(dweetId);
+      const replies = await contracts.dwitter.getReplies(dweetId);
 
       if (replies && replies.length) {
         const newReplies = [];
@@ -111,7 +113,7 @@ export default function Dweets({ contract, account, dweetId }) {
 
   async function postDweet() {
     try {
-      const tx = await contract.postDweet(input);
+      const tx = await contracts.dwitter.postDweet(input);
       setIsLoading(true);
       await tx.wait();
       setInput("");
@@ -121,7 +123,7 @@ export default function Dweets({ contract, account, dweetId }) {
 
   async function deleteDweet(id) {
     try {
-      const tx = await contract.deleteDweet(id);
+      const tx = await contracts.dwitter.deleteDweet(id);
       setIsLoading(true);
       await tx.wait();
     } catch (e) { console.error(e); }
@@ -129,14 +131,15 @@ export default function Dweets({ contract, account, dweetId }) {
 
   async function likeDweet(id) {
     try {
-      const tx = await contract.likeDweet(id);
+      const tx = await contracts.dwitter.likeDweet(id);
       setIsLoading(true);
       await tx.wait();
     } catch (e) { console.error(e); }
   }
+  //#endregion
 
   async function handleReply(dweet) {
-    handleModal(dweet)
+    handleModal(ModalTypes.Reply, { dweet, user })
   }
 
   function goToDweet(id) {
@@ -144,7 +147,7 @@ export default function Dweets({ contract, account, dweetId }) {
   }
 
   function handleContractEvents() {
-    contract.on("reload", async () => {
+    contracts.dwitter.on("reload", async () => {
       dweetId ? getDweet() : getDweets();
     });
   }

@@ -1,4 +1,3 @@
-import getContract from '../utils/helpers/ethers/getContract';
 import { useMetamask } from '../context/metamaskContext';
 import Profile from '../components/containers/profile/Profile'
 

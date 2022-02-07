@@ -3,23 +3,23 @@ import Button from '../../common/button/Button';
 import styles from './DweetForm.module.scss';
 import Image from 'next/image';
 
-export default function dweetForm(props) {
+export default function dweetForm({ value, user, placeholder, onInput, postDweet, router }) {
   return (
     <div className={styles.dweetForm}>
-      {props.user ?
+      {user ?
         <>
-          <Image className={styles.image} src={`/assets/profile_pictures/${props.user.picture}.svg`} width={35} height={35} />
+          <Image className={styles.image} src={`/assets/profile_pictures/${user.picture}.svg`} width={35} height={35} />
           <div className={styles.input}>
-            <Input value={props.value} name="dweet" limit="200" onInput={(name, value) => props.onInput(value)} placeholder={props.placeholder} />
+            <Input value={value} name="dweet" limit="200" onInput={(name, value) => onInput(value)} placeholder={placeholder} />
           </div>
           <div className={styles.dweetButton} >
-            <Button onClick={() => props.postDweet()} disabled={!props.value}>Dweet</Button>
+            <Button onClick={() => postDweet()} disabled={!value}>Dweet</Button>
           </div>
         </>
         :
         <div className={styles.noAccount}>
           <p className={styles.message}>Hi fren 👋, <br /> you'll need to create an account to push some new dweets here :)</p>
-          <Button onClick={() => props.router.push('/profile')}>Let's go</Button>
+          <Button onClick={() => router.push('/profile')}>Let's go</Button>
         </div>
       }
     </div>

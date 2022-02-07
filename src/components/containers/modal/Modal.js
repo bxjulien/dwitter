@@ -1,4 +1,5 @@
 import { createContext, useState, useContext } from 'react';
+import { ModalTypes } from '../../../utils/enums/ModalTypes';
 import Reply from '../reply/Reply';
 import styles from './Modal.module.scss';
 
@@ -6,14 +7,14 @@ const ModalContext = createContext();
 
 export default function Modal({ children }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState(null);
+  const [state, setState] = useState(null);
 
-  function handleModal(v = null) {
-    if (v) {
-      setData(v);
+  function handleModal(modalType = null, data = null) {
+    if (modalType && data) {
+      setState({ modalType, data });
       setIsOpen(true);
     } else {
-      setData(null);
+      setState(null);
       setIsOpen(false);
     }
   }
@@ -25,9 +26,12 @@ export default function Modal({ children }) {
       {isOpen &&
         <div className={styles.modal} onClick={() => handleModal()}>
           <div className={styles.content} onClick={e => e.stopPropagation()}>
-          {data &&
-            <Reply dweet={data} closeModal={handleModal} />
-          }
+            {state &&
+              (
+                state.modalType === ModalTypes.Reply &&
+                <Reply dweet={state.data.dweet} user={state.data.user} closeModal={handleModal} />
+              )
+            }
           </div>
         </div>
       }
