@@ -168,16 +168,14 @@ export default function Dweets({ contracts, ethereum, account, dweetId }) {
   }
 
   function renderDweets() {
-    if (user) {
-      if (dweets) {
-        if (dweetId) return <Dweet dweet={dweets} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu />
-        else {
-          return dweets.map((dweet, key) => {
-            return <Dweet key={key} dweet={dweet} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
-          });
-        }
-      } else return <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
-    }
+    if (dweets) {
+      if (dweetId) return <Dweet dweet={dweets} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu />
+      else {
+        return dweets.map((dweet, key) => {
+          return <Dweet key={key} dweet={dweet} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
+        });
+      }
+    } else return <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
   }
 
   function renderReplies() {
@@ -195,7 +193,7 @@ export default function Dweets({ contracts, ethereum, account, dweetId }) {
   return (
     <section className={styles.dweets}>
 
-      {!dweetId && user &&
+      {!dweetId &&
         <div className={styles.form}>
           <DweetForm user={user} value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" router={router} />
         </div>

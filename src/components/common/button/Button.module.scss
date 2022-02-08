@@ -2,11 +2,16 @@
   text-align: center;
   border: none;
   color: dimgrey;
-  font-weight: bold;
   text-decoration: none;
   cursor: pointer;
   border-radius: 50px;
   width: 4rem;
   height: 1.8rem;
   margin: .2rem;
+  transition: all .4s ease-in-out;
+}
+
+.active {
+  background: $secondary;
+  color: $text;
 }

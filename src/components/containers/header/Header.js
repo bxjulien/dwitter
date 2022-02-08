@@ -14,6 +14,9 @@ export default function Header() {
         <li onClick={() => router.push('/profile')} className={router.pathname === "/profile" ? styles.active : ''}>
           <Image className={styles.image} src={`/assets/icons/account.png`} width={22} height={22} />
         </li>
+        <li onClick={() => router.push('/info')} className={router.pathname === "/info" ? styles.active : ''}>
+          <Image className={styles.image} src={`/assets/icons/info.png`} width={22} height={22} />
+        </li>
       </ul>
     </div>
   )

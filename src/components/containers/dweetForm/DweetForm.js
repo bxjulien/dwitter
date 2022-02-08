@@ -2,6 +2,7 @@ import Input from '../../common/input/Input';
 import Button from '../../common/button/Button';
 import styles from './DweetForm.module.scss';
 import Image from 'next/image';
+import Icon from '../../common/icon/Icon';
 
 export default function dweetForm({ value, user, placeholder, onInput, postDweet, router }) {
   return (
@@ -18,7 +19,7 @@ export default function dweetForm({ value, user, placeholder, onInput, postDweet
         </>
         :
         <div className={styles.noAccount}>
-          <p className={styles.message}>Hi fren 👋, <br /> you'll need to create an account to push some new dweets here :)</p>
+          <div className={styles.message}>Hi fren <span className={styles.icon}>👋</span>, <br /> you'll need to create an account to push some new dweets here :)</div>
           <Button onClick={() => router.push('/profile')}>Let's go</Button>
         </div>
       }

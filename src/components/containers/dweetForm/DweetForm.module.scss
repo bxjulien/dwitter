@@ -24,7 +24,13 @@
     align-items: center;
 
     .message {
+      margin-bottom: 1rem;
       font-size: small;
+
+      .icon {
+        font-size: x-large;
+        cursor: grab;
+      }
     }
   }
 }

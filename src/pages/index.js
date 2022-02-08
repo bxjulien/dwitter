@@ -1,7 +1,7 @@
 import Dweets from '../components/containers/dweets/Dweets'
 import { useMetamask } from '../context/metamaskContext';
 
-export default function Home() {
+export default function IndexPage() {
   const { ethereum, contracts, account, connect } = useMetamask();
 
   if (!ethereum) return <p>Please install Metamask to connect to this site</p>

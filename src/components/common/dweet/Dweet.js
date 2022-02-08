@@ -4,6 +4,10 @@ import Image from 'next/image';
 import Icon from '../icon/Icon';
 
 export default function Dweet({ dweet, user, likeDweet, deleteDweet, sendTip, handleReply, routing, isMenu, isBorder, noBackground }) {
+  const connectTooltip = "Connect to interact";
+
+  console.log(user)
+
   return (
     <div className={`${styles.dweet} ${(!isBorder && styles.noBorder)} ${noBackground && styles.noBackground}`}>
       <div className={styles.userContainer}>
@@ -19,16 +23,16 @@ export default function Dweet({ dweet, user, likeDweet, deleteDweet, sendTip, ha
       </div>
       {isMenu &&
         <div className={styles.menu}>
-          <Icon icon={'↩️'} onClickFn={() => handleReply(dweet)} info={dweet.replies} tooltip="Reply" />
+          <Icon icon={'↩️'} onClickFn={() => handleReply(dweet)} info={dweet.replies} tooltip={!user ? connectTooltip : 'Reply'} />
 
-          <Icon icon={'❤️'} onClickFn={() => likeDweet(dweet.id)} info={dweet.likes.length} tooltip="Like" />
+          <Icon icon={'❤️'} onClickFn={() => likeDweet(dweet.id)} info={dweet.likes.length} tooltip={!user ? connectTooltip : 'Like'} />
 
           {
-            dweet.user === user.addr
+            user && user.addr === dweet.user
               ?
-              <Icon icon={'🗑️'} onClickFn={() => deleteDweet(dweet.id)} tooltip="Delete" />
+              <Icon icon={'🗑️'} onClickFn={() => deleteDweet(dweet.id)} tooltip={!user ? connectTooltip : 'Delete'} />
               :
-              <Icon onClickFn={() => sendTip(dweet.user)} icon={'💰'} tooltip="Tip 0.001 ETH" />
+              <Icon onClickFn={() => sendTip(dweet.user)} icon={'💰'} tooltip={!user ? connectTooltip : 'Tip 0.001 ETH'} />
           }
         </div>
       }

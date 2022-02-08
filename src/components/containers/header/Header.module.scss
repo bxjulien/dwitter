@@ -1,5 +1,4 @@
 .header {
-  
   ul {
     padding: 0 2rem 0 0;
     display: flex;
@@ -10,20 +9,16 @@
       display: flex;
       justify-content: center;
       align-items: centers;
-      margin-bottom: .6rem;
-      padding: .5rem;
-      border-radius: 5px;
-      transition: all .4s ease-in-out;
-
-      span {
-        cursor: pointer;
-      }
+      margin-bottom: 0.6rem;
+      padding: 0.5rem;
+      transition: all 0.4s linear;
+      background-color: transparent;
+      cursor: pointer;
     }
 
     .active {
       background-color: $border-color;
       border-radius: 50px;
     }
-
   }
 }
