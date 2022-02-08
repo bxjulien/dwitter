@@ -8,8 +8,9 @@ import { useUser } from '../../../context/userContext';
 import Loader from '../../common/loader/Loader';
 import { useRouter } from 'next/router';
 import { ModalTypes } from '../../../utils/enums/ModalTypes';
+import { ethers } from 'ethers';
 
-export default function Dweets({ contracts, account, dweetId }) {
+export default function Dweets({ contracts, ethereum, account, dweetId }) {
   const { handleModal } = useModal();
   const { user } = useUser();
   const router = useRouter();
@@ -138,6 +139,20 @@ export default function Dweets({ contracts, account, dweetId }) {
   }
   //#endregion
 
+  async function sendTip(receiver) {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+
+    const tx = {
+      chainId: "0x4",
+      from: user.addr,
+      to: receiver,
+      value: ethers.utils.parseEther('0.001')
+    }
+
+    signer.sendTransaction(tx);
+  }
+
   async function handleReply(dweet) {
     handleModal(ModalTypes.Reply, { dweet, user })
   }
@@ -153,20 +168,26 @@ export default function Dweets({ contracts, account, dweetId }) {
   }
 
   function renderDweets() {
-    if (dweets) {
-      if (dweetId) return <Dweet dweet={dweets} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu />
-      else {
-        return dweets.map((dweet, key) => {
-          return <Dweet key={key} dweet={dweet} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
-        });
-      }
-    } else return <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
+    if (user) {
+      if (dweets) {
+        if (dweetId) return <Dweet dweet={dweets} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu />
+        else {
+          return dweets.map((dweet, key) => {
+            return <Dweet key={key} dweet={dweet} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
+          });
+        }
+      } else return <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
+    }
   }
 
   function renderReplies() {
     if (replies) {
       return replies.map((reply, key) => {
-        return <Dweet key={key} dweet={reply} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
+        return (
+          <div className={styles.reply}>
+            <Dweet key={key} dweet={reply} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
+          </div>
+        )
       })
     }
   }
@@ -174,8 +195,10 @@ export default function Dweets({ contracts, account, dweetId }) {
   return (
     <section className={styles.dweets}>
 
-      {!dweetId &&
-        <DweetForm user={user} value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" router={router} />
+      {!dweetId && user &&
+        <div className={styles.form}>
+          <DweetForm user={user} value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" router={router} />
+        </div>
       }
 
       {isLoading ? <Loader /> : renderDweets()}

@@ -21,7 +21,7 @@ export default function Reply({ dweet, user, closeModal }) {
 
   return (
     <div className={styles.dweetReply}>
-      <Dweet dweet={dweet} routing isMenu />
+      <Dweet dweet={dweet} user={user} routing isMenu noBackground />
       <DweetForm value={reply} user={user} onInput={setReply} postDweet={() => postReply()} placeholder="ratio ?" postText="Reply" />
     </div>
   )

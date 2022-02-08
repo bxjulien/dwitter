@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  transition: all 0.2s;
+
+  .content {
+    position: relative;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    margin: 0.3rem;
+    opacity: 0.7;
+    transition: all 0.4s ease-in-out;
+
+    .info {
+      margin-left: 4px;
+    }
+
+    .tooltip {
+      position: absolute;
+      margin-bottom: 3rem;
+      animation: fadeIn .4s;
+      color: $border-color;
+      width: max-content;
+    }
+  }
+
+  .content:hover {
+    opacity: 1;
+    background: $backgroundLightPlusPlus;
+    border-radius: 99px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

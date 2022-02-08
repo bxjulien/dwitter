@@ -3,7 +3,33 @@
   min-height: 100vh;
   height: 100%;
 
-  border: 1px solid $border-color;
   border-top: none;
   border-bottom: none;
+
+  .form {
+    margin-bottom: 3rem;
+  }
+
+  .reply {
+    display: flex;
+    justify-content: flex-end;
+
+    > * {
+      width: 97%;
+    }
+  }
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 860px) {
+  .dweets {
+    margin-right: 1.5rem;
+  }
+}
+
+
+@media screen and (max-width: 550px) {
+  .dweets {
+    margin-left: 1.5rem;
+  }
 }

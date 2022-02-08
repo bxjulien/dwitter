@@ -6,5 +6,5 @@ export default function Home() {
 
   if (!ethereum) return <p>Please install Metamask to connect to this site</p>
   else if (!account) return <p>Connect with Metamask</p>
-  else return <Dweets contracts={contracts} account={account} />
+  else return <Dweets contracts={contracts} ethereum={ethereum} account={account} />
 }
