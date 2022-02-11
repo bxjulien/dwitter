@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
+import { ContractTypes } from "../utils/enums/ContractTypes";
 import getContract from "../utils/helpers/ethers/getContract";
 
 const MetamaskContext = createContext();
@@ -25,8 +26,9 @@ export default function MetamaskProvider({ children }) {
 
   useEffect(() => {
     if (ethereum) setContracts({
-      dwitter: getContract(ethereum, "Dwitter"),
-      dwittos: getContract(ethereum, "Dwittos")
+      dwitter: getContract(ethereum, ContractTypes.Dwitter),
+      dwittos: getContract(ethereum, ContractTypes.Dwittos),
+      faucet: getContract(ethereum, ContractTypes.Faucet),
     })
   }, [ethereum]);
 

@@ -3,25 +3,28 @@ import Button from '../../common/button/Button';
 import styles from './DweetForm.module.scss';
 import Image from 'next/image';
 import Icon from '../../common/icon/Icon';
+import { BalanceTypes } from '../../../utils/enums/BalanceTypes';
+import Message from '../../common/message/Message';
 
-export default function dweetForm({ value, user, placeholder, onInput, postDweet, router }) {
+export default function dweetForm({ value, user, balance, placeholder, onInput, postDweet }) {
   return (
     <div className={styles.dweetForm}>
       {user ?
-        <>
-          <Image className={styles.image} src={`/assets/profile_pictures/${user.picture}.svg`} width={35} height={35} />
-          <div className={styles.input}>
-            <Input value={value} name="dweet" limit="200" onInput={(name, value) => onInput(value)} placeholder={placeholder} />
-          </div>
-          <div className={styles.dweetButton} >
-            <Button onClick={() => postDweet()} disabled={!value}>Dweet</Button>
-          </div>
-        </>
+        (balance >= BalanceTypes.Enough ?
+          <>
+            <Image className={styles.image} src={`/assets/profile_pictures/${user.picture}.svg`} width={35} height={35} alt="Profile" />
+            <div className={styles.input}>
+              <Input value={value} name="dweet" limit="200" onInput={(name, value) => onInput(value)} placeholder={placeholder} />
+            </div>
+            <div className={styles.dweetButton} >
+              <Button onClick={() => postDweet()} disabled={!value}>Dweet</Button>
+            </div>
+          </>
+          :
+          'not enough ethks'
+        )
         :
-        <div className={styles.noAccount}>
-          <div className={styles.message}>Hi fren <span className={styles.icon}>👋</span>, <br /> you'll need to create an account to push some new dweets here :)</div>
-          <Button onClick={() => router.push('/profile')}>Let's go</Button>
-        </div>
+        <Message route={balance >= BalanceTypes.Enough ? '/profile' : '/info'} firstPart={'Hi fren'} icon={'👋'} secondPart={"you'll need to create an account to push some new dweets here :)"} buttonText={"Let's go !"} />
       }
     </div>
   )

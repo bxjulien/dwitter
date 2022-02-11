@@ -10,9 +10,8 @@ import { useRouter } from 'next/router';
 import { ModalTypes } from '../../../utils/enums/ModalTypes';
 import { ethers } from 'ethers';
 
-export default function Dweets({ contracts, ethereum, account, dweetId }) {
+export default function Dweets({ contracts, ethereum, account, dweetId, user, balance }) {
   const { handleModal } = useModal();
-  const { user } = useUser();
   const router = useRouter();
 
   const [dweets, setDweets] = useState([]);
@@ -182,8 +181,8 @@ export default function Dweets({ contracts, ethereum, account, dweetId }) {
     if (replies) {
       return replies.map((reply, key) => {
         return (
-          <div className={styles.reply}>
-            <Dweet key={key} dweet={reply} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
+          <div className={styles.reply} key={key}>
+            <Dweet dweet={reply} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
           </div>
         )
       })
@@ -195,7 +194,7 @@ export default function Dweets({ contracts, ethereum, account, dweetId }) {
 
       {!dweetId &&
         <div className={styles.form}>
-          <DweetForm user={user} value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="Quoi de neuf ?" router={router} />
+          <DweetForm user={user} balance={balance} value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="What's up ?" />
         </div>
       }
 

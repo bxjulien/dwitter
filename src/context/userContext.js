@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { useState, useEffect, createContext, useContext } from "react";
 import { useMetamask } from "./metamaskContext";
 
@@ -7,6 +8,9 @@ export default function UserContextProvider({ children }) {
   const { contracts, account, connect, isMetamaskContextLoaded } = useMetamask();
 
   const [user, setUser] = useState(null);
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => { getBalance() }, [account]);
 
   useEffect(async () => {
     if (isMetamaskContextLoaded && (!user || !user.exists)) {
@@ -31,7 +35,15 @@ export default function UserContextProvider({ children }) {
     catch (e) { console.error(e); }
   }
 
-  const value = { user, getUser }
+  async function getBalance() {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+
+    provider.getBalance(account).then((res) => {
+      setBalance(ethers.utils.formatEther(res));
+    });
+  }
+
+  const value = { user, balance, getUser }
 
   return (
     <UserContext.Provider value={value}>

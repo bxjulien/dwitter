@@ -5,7 +5,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  p {
+
+  .description {
     margin: 0;
+    padding: 0 0 2rem 0;
+
+    .network {
+      color: $secondary;
+    }
   }
 }

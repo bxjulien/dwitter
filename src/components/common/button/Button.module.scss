@@ -1,14 +1,20 @@
 .button {
-  text-align: center;
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: .2rem;
+  padding: .8rem;
+
   border: none;
-  color: dimgrey;
+  color: rgb(170, 170, 170);
   text-decoration: none;
   cursor: pointer;
   border-radius: 50px;
-  width: 4rem;
-  height: 1.8rem;
-  margin: .2rem;
   transition: all .4s ease-in-out;
+
+  font-weight: bold;
 }
 
 .active {
