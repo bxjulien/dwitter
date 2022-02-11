@@ -7,5 +7,11 @@
     .text {
         text-align: left;
         padding: 2rem 0;
+
+        .icon {
+            font-size: x-large;
+            cursor: grab;
+        }
     }
+
 }

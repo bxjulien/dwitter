@@ -2,7 +2,6 @@ import Input from '../../common/input/Input';
 import Button from '../../common/button/Button';
 import styles from './DweetForm.module.scss';
 import Image from 'next/image';
-import Icon from '../../common/icon/Icon';
 import { BalanceTypes } from '../../../utils/enums/BalanceTypes';
 import Message from '../../common/message/Message';
 
@@ -21,7 +20,7 @@ export default function dweetForm({ value, user, balance, placeholder, onInput, 
             </div>
           </>
           :
-          'not enough ethks'
+          <Message route={'/info'} firstPart={'Oops'} icon={'😲'} secondPart={"you have not enough ETH to create your profile"} buttonText={'Go get some'} />
         )
         :
         <Message route={balance >= BalanceTypes.Enough ? '/profile' : '/info'} firstPart={'Hi fren'} icon={'👋'} secondPart={"you'll need to create an account to push some new dweets here :)"} buttonText={"Let's go !"} />

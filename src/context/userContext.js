@@ -39,7 +39,7 @@ export default function UserContextProvider({ children }) {
     const provider = new ethers.providers.Web3Provider(ethereum);
 
     provider.getBalance(account).then((res) => {
-      setBalance(ethers.utils.formatEther(res));
+      if (account) setBalance(ethers.utils.formatEther(res));
     });
   }
 
