@@ -3,7 +3,7 @@ import styles from "./Button.module.scss";
 
 export default function Button(props) {
   return (
-    <button {...props} className={`${styles.button} ${!props.disabled && styles.active}`}>
+    <button disabled={props.disabled} className={`${styles.button} ${props.disabled ? styles.disabled : styles.active}`}>
       {props.isLoading ? <Loader isButton={true} /> : props.children}
     </button>
   )

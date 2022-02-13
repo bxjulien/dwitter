@@ -17,6 +17,10 @@
   font-weight: bold;
 }
 
+.disabled {
+  opacity: .5;
+}
+
 .active {
   background: $secondary;
   color: $text;

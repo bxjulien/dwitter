@@ -5,7 +5,7 @@ import { useMetamask } from "./metamaskContext";
 const UserContext = createContext();
 
 export default function UserContextProvider({ children }) {
-  const { contracts, account, connect, isMetamaskContextLoaded } = useMetamask();
+  const { contracts, account, connect, ethereum, isMetamaskContextLoaded } = useMetamask();
 
   const [user, setUser] = useState(null);
   const [balance, setBalance] = useState(0);
@@ -36,11 +36,13 @@ export default function UserContextProvider({ children }) {
   }
 
   async function getBalance() {
-    const provider = new ethers.providers.Web3Provider(ethereum);
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
 
-    provider.getBalance(account).then((res) => {
-      if (account) setBalance(ethers.utils.formatEther(res));
-    });
+      provider.getBalance(account).then((res) => {
+        if (account) setBalance(ethers.utils.formatEther(res));
+      });
+    }
   }
 
   const value = { user, balance, getUser }

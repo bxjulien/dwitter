@@ -15,8 +15,13 @@ async function main() {
   const dwitter = await Dwitter.deploy(dwittos.address);
   await dwitter.deployed();
 
+  const Faucet = await hre.ethers.getContractFactory('Faucet');
+  const faucet = await Faucet.deploy();
+  await faucet.deployed();
+
   console.log('\n Dwittos address -> ', dwittos.address);
   console.log('\n Dwitter address -> ', dwitter.address);
+  console.log('\n Faucet address  -> ', dwitter.address);
 };
 
 const runMain = async () => {

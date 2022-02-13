@@ -10,6 +10,18 @@ export default function MetamaskProvider({ children }) {
   const [contracts, setContracts] = useState(null);
   const [isMetamaskContextLoaded, setIsMetamaskContextLoaded] = useState(false);
 
+  useEffect(() => setEthereumFromWindow(), []);
+  useEffect(() => {
+    if (ethereum) {
+      getAccount();
+      setContracts({
+        dwitter: getContract(ethereum, ContractTypes.Dwitter),
+        dwittos: getContract(ethereum, ContractTypes.Dwittos),
+        faucet: getContract(ethereum, ContractTypes.Faucet),
+      })
+    }
+  }, [ethereum]);
+  
   async function setEthereumFromWindow() {
     if (window.ethereum) {
       window.ethereum.on('chainChanged', (_chainId) => window.location.reload())
@@ -22,15 +34,6 @@ export default function MetamaskProvider({ children }) {
       }
     }
   }
-  useEffect(() => setEthereumFromWindow(), []);
-
-  useEffect(() => {
-    if (ethereum) setContracts({
-      dwitter: getContract(ethereum, ContractTypes.Dwitter),
-      dwittos: getContract(ethereum, ContractTypes.Dwittos),
-      faucet: getContract(ethereum, ContractTypes.Faucet),
-    })
-  }, [ethereum]);
 
   async function getAccount() {
     if (ethereum) {
@@ -39,7 +42,6 @@ export default function MetamaskProvider({ children }) {
       setIsMetamaskContextLoaded(true)
     }
   }
-  useEffect(() => getAccount());
 
   function handleAccounts(accounts) {
     if (accounts.length > 0) {

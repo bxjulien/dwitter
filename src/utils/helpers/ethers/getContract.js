@@ -1,12 +1,12 @@
 import { ethers } from 'ethers';
 
-const dwitterAddress = "0x223eD313eeD92238C68Ac627cF6c821ae914d844";
+const dwitterAddress = "0x08E0327a417519b0D78f0BC3F3645fD7b6beCA80";
 import dwitterAbi from '../../../../solidity/artifacts/contracts/Dwitter.sol/Dwitter.json'
 
-const dwittosAddress = "0x176D3180DA41e728Fe1d30713Dae2a88Fb66D8C5";
+const dwittosAddress = "0x721463A1Ee001E555F17E22c6437E90a62583491";
 import dwittosAbi from '../../../../solidity/artifacts/contracts/Dwittos.sol/Dwittos.json';
 
-const faucetAddress = "0x176D3180DA41e728Fe1d30713Dae2a88Fb66D8C5";
+const faucetAddress = "0x08E0327a417519b0D78f0BC3F3645fD7b6beCA80";
 import faucetAbi from '../../../../solidity/artifacts/contracts/Faucet.sol/Faucet.json';
 import { ContractTypes } from '../../enums/ContractTypes';
 
