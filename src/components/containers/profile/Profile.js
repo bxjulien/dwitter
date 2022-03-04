@@ -11,7 +11,7 @@ export default function Profile({ account, contract, user, balance, getUser }) {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <section className={styles.profile}>
+    <div className={styles.profile}>
 
       <h1>Profile</h1>
 
@@ -25,9 +25,9 @@ export default function Profile({ account, contract, user, balance, getUser }) {
               balance >= BalanceTypes.Enough ?
                 <UserForm contract={contract} account={account} setIsLoading={setIsLoading} getUser={getUser} />
                 :
-                <Message route={'/info'} firstPart={'Oops'} icon={'😲'} secondPart={"you have not enough ETH to create your profile"} buttonText={'Go get some'} />
+                <Message route={'/faucet'} firstPart={'Oops'} icon={'😲'} secondPart={"you have not enough ETH to create your profile"} buttonText={'Go get some'} />
             )
         )}
-    </section>
+    </div>
   )
 }

@@ -60,7 +60,7 @@ export default function UserForm({ contract, account, setIsLoading, getUser }) {
           {pictures.map((p, key) => {
             return (
               <div key={key} onClick={() => onInput('picture', p)} className={`${styles.picture} ${(p === state.picture ? styles.active : '')}`}>
-                <Image className={styles.image} src={`/assets/profile_pictures/${p}.svg`} width={35} height={35} />
+                <Image className={styles.image} src={`/assets/profile_pictures/${p}.svg`} width={35} height={35} alt="profile" />
               </div>
             )
           })}

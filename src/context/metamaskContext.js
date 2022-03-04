@@ -8,35 +8,38 @@ export default function MetamaskProvider({ children }) {
   const [ethereum, setEthereum] = useState(null);
   const [account, setAccount] = useState(null);
   const [contracts, setContracts] = useState(null);
+  const [isWrongNetwork, setIsWrongNetwork] = useState(null);
   const [isMetamaskContextLoaded, setIsMetamaskContextLoaded] = useState(false);
 
   async function setEthereumFromWindow() {
     if (window.ethereum) {
+      setEthereum(window.ethereum);
+
       window.ethereum.on('chainChanged', (_chainId) => window.location.reload())
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       const rinkebyId = "0x4";
-      if (chainId == rinkebyId) {
-        setEthereum(window.ethereum);
-      } else {
-        alert("Wrong Network... Use Rinkeby Testnet :)")
-      }
+
+      if (chainId === rinkebyId) setIsWrongNetwork(false);
+      else setIsWrongNetwork(true);
     }
   }
   useEffect(() => setEthereumFromWindow(), []);
 
   useEffect(() => {
-    if (ethereum) setContracts({
-      dwitter: getContract(ethereum, ContractTypes.Dwitter),
-      dwittos: getContract(ethereum, ContractTypes.Dwittos),
-      faucet: getContract(ethereum, ContractTypes.Faucet),
-    })
+    if (ethereum && !isWrongNetwork) {
+      setContracts({
+        dwitter: getContract(ethereum, ContractTypes.Dwitter),
+        dwittos: getContract(ethereum, ContractTypes.Dwittos),
+        faucet: getContract(ethereum, ContractTypes.Faucet),
+      })
+    } 
   }, [ethereum]);
 
   async function getAccount() {
-    if (ethereum) {
+    if (ethereum && !isWrongNetwork) {
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       handleAccounts(accounts);
-      setIsMetamaskContextLoaded(true)
+      setIsMetamaskContextLoaded(true);
     }
   }
   useEffect(() => getAccount());
@@ -50,7 +53,7 @@ export default function MetamaskProvider({ children }) {
     }
   };
 
-  const value = { ethereum, account, getAccount, contracts, isMetamaskContextLoaded }
+  const value = { ethereum, account, getAccount, contracts, isWrongNetwork, isMetamaskContextLoaded }
 
   return (
     <MetamaskContext.Provider value={value}>

@@ -5,18 +5,24 @@ import Image from 'next/image';
 export default function Header() {
   const router = useRouter();
 
+  const routes = [
+    { route: '/', icon: 'home' },
+    { route: '/profile', icon: 'account' },
+    { route: '/faucet', icon: 'drop' }
+  ]
+
   return (
     <div className={styles.header}>
       <ul>
-        <li onClick={() => router.push('/')} className={router.pathname === "/" ? styles.active : ''}>
-          <Image className={styles.image} src={`/assets/icons/home.png`} width={22} height={22} alt="Home" />
-        </li>
-        <li onClick={() => router.push('/profile')} className={router.pathname === "/profile" ? styles.active : ''}>
-          <Image className={styles.image} src={`/assets/icons/account.png`} width={22} height={22} alt="Profile" />
-        </li>
-        <li onClick={() => router.push('/info')} className={router.pathname === "/info" ? styles.active : ''}>
-          <Image className={styles.image} src={`/assets/icons/drop.png`} width={22} height={22} alt="Info" />
-        </li>
+        {
+          routes.map((r, key) => {
+            return (
+              <li key={key} onClick={() => router.push(r.route)} className={router.pathname === r.route ? styles.active : undefined}>
+                <Image className={styles.image} src={`/assets/icons/${r.icon}.png`} width={22} height={22} alt={r.icon} />
+              </li>
+            )
+          })
+        }
       </ul>
     </div>
   )

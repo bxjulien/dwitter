@@ -19,6 +19,7 @@ export default function Input(props) {
       {props.label && <label onClick={() => setFocus(true)} className={styles.label + ' ' + (focus ? styles.focused : '')}>{props.label}</label>}
       <input
         {...props}
+        autoComplete="off"
         className={styles.input + ' ' + (focus ? styles.bordered : '')}
         name={props.name}
         onInput={(e) => onInput(e.target.name, e.target.value)}

@@ -1,31 +1,33 @@
 import { ethers } from 'ethers';
-
-const dwitterAddress = "0x223eD313eeD92238C68Ac627cF6c821ae914d844";
-import dwitterAbi from '../../../../solidity/artifacts/contracts/Dwitter.sol/Dwitter.json'
-
-const dwittosAddress = "0x176D3180DA41e728Fe1d30713Dae2a88Fb66D8C5";
-import dwittosAbi from '../../../../solidity/artifacts/contracts/Dwittos.sol/Dwittos.json';
-
-const faucetAddress = "0x176D3180DA41e728Fe1d30713Dae2a88Fb66D8C5";
-import faucetAbi from '../../../../solidity/artifacts/contracts/Faucet.sol/Faucet.json';
 import { ContractTypes } from '../../enums/ContractTypes';
 
-export default function getContract(ethereum, name) {
-  if (ethereum) {
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner();
+const dwittosAddress = "0x500c0DFB59c9cd1A8E935c86150A8235e9B3D62A";
+import dwittosAbi from '../../../../solidity/artifacts/contracts/Dwittos.sol/Dwittos.json';
 
-    switch (name) {
-      case ContractTypes.Dwitter:
-        return new ethers.Contract(dwitterAddress, dwitterAbi.abi, signer);
-      case ContractTypes.Dwittos:
-        return new ethers.Contract(dwittosAddress, dwittosAbi.abi, signer);
-      case ContractTypes.Faucet:
-        return new ethers.Contract(faucetAddress, faucetAbi.abi, signer);
-    }
-  } else {
-    console.error(`Function getContract : Ethereum is ${ethereum}`)
+const dwitterAddress = "0x7B8A0E8Cf25a4eDE8BC94b79065Cb7987247CAAc";
+import dwitterAbi from '../../../../solidity/artifacts/contracts/Dwitter.sol/Dwitter.json'
+
+const faucetAddress = "0x69a1B8e2752fB015A2645d20E7cB29b231807F2f";
+import faucetAbi from '../../../../solidity/artifacts/contracts/Faucet.sol/Faucet.json';
+
+export default function getContract(ethereum, contractType, wallet = null) {
+  let signer;
+
+  if (!ethereum && !wallet) {
+    console.error(`Function getContract : Ethereum is ${ethereum} / Wallet is ${wallet}`)
     return undefined
   }
+  if (ethereum) {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    signer = provider.getSigner();
+  }
 
+  switch (contractType) {
+    case ContractTypes.Dwitter:
+      return new ethers.Contract(dwitterAddress, dwitterAbi.abi, signer);
+    case ContractTypes.Dwittos:
+      return new ethers.Contract(dwittosAddress, dwittosAbi.abi, signer);
+    case ContractTypes.Faucet:
+      return new ethers.Contract(faucetAddress, faucetAbi.abi, signer ? signer : wallet);
+  }
 }

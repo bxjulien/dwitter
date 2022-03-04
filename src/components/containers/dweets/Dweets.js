@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import Dweet from '../../common/dweet/Dweet';
-import NoData from '../../common/noData/NoData';
 import styles from './Dweets.module.scss'
 import DweetForm from '../dweetForm/DweetForm';
 import { useModal } from '../modal/Modal';
-import { useUser } from '../../../context/userContext';
 import Loader from '../../common/loader/Loader';
 import { useRouter } from 'next/router';
 import { ModalTypes } from '../../../utils/enums/ModalTypes';
 import { ethers } from 'ethers';
+import Message from '../../common/message/Message';
 
 export default function Dweets({ contracts, ethereum, account, dweetId, user, balance }) {
   const { handleModal } = useModal();
@@ -174,7 +173,7 @@ export default function Dweets({ contracts, ethereum, account, dweetId, user, ba
           return <Dweet key={key} dweet={dweet} user={user} sendTip={sendTip} likeDweet={likeDweet} deleteDweet={deleteDweet} handleReply={handleReply} routing={goToDweet} isMenu isBorder />
         });
       }
-    } else return <NoData>Hmm, it seems our super decentralized database is empty... :(</NoData>
+    } else return <Message firstPart={'Hmm'} icon={'🦖'} secondPart={"It seems our super decentralized database is empty..."} />
   }
 
   function renderReplies() {
@@ -194,7 +193,7 @@ export default function Dweets({ contracts, ethereum, account, dweetId, user, ba
 
       {!dweetId &&
         <div className={styles.form}>
-          <DweetForm user={user} balance={balance} value={input} onInput={setInput} postDweet={() => postDweet()} placeholder="What's up ?" />
+          <DweetForm user={user} balance={balance} value={input} onInput={setInput} postDweet={() => postDweet()} placeholder={`${user ? "What's up " + user.username + " ?" : null}`} />
         </div>
       }
 

@@ -20,10 +20,10 @@ export default function dweetForm({ value, user, balance, placeholder, onInput, 
             </div>
           </>
           :
-          <Message route={'/info'} firstPart={'Oops'} icon={'😲'} secondPart={"you have not enough ETH to create your profile"} buttonText={'Go get some'} />
+          <Message route={'/faucet'} firstPart={'Oops'} icon={'😲'} secondPart={"you have not enough ETH to create your profile"} buttonText={'Go get some'} />
         )
         :
-        <Message route={balance >= BalanceTypes.Enough ? '/profile' : '/info'} firstPart={'Hi fren'} icon={'👋'} secondPart={"you'll need to create an account to push some new dweets here :)"} buttonText={"Let's go !"} />
+        <Message route={balance >= BalanceTypes.Enough ? '/profile' : '/faucet'} firstPart={'Hi fren'} icon={'👋'} secondPart={"you'll need to create an account to push some new dweets here :)"} buttonText={"Let's go !"} />
       }
     </div>
   )
